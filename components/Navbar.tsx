@@ -214,7 +214,7 @@ export default function Navbar() {
       <header className={`site-header mv18-header ${scrolled ? "mv18-scrolled" : ""}`}>
         <div className="container nav-inner mv18-inner">
           <a className="brand mv18-brand" href="#inizio" onClick={closeMenu} aria-label="Facilerent Molinari Volley Napoli — Home">
-            <Image src="/images/LOGO_2.PNG" width={2048} height={617} alt="Facilerent Molinari Volley Napoli" className="nav-logo mv18-logo" priority />
+            <Image src="/ASD-MOLINARI-VOLLEY/images/LOGO_2.PNG" width={2048} height={617} alt="Facilerent Molinari Volley Napoli" className="nav-logo mv18-logo" priority />
           </a>
 
           <nav className="mv18-desktop" aria-label="Navigazione principale">

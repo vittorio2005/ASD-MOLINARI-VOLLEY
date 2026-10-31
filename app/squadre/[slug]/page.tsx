@@ -151,7 +151,7 @@ export default async function RosterPage({ params }: Props) {
       <header className="mvr24-header" style={{ background: "#fff", borderBottom: "1px solid #e7ecf5" }}>
         <div className="mvr24-wrap mvr24-headerinner">
           <Link href="/" className="mvr24-brand" aria-label="Home — Facilerent Molinari Volley Napoli">
-            <Image src="/images/LOGO_2.PNG" alt="Facilerent Molinari Volley Napoli" width={2048} height={617} priority style={{ width: "100%", height: "auto" }} />
+            <Image src="/ASD-MOLINARI-VOLLEY/images/LOGO_2.PNG" alt="Facilerent Molinari Volley Napoli" width={2048} height={617} priority style={{ width: "100%", height: "auto" }} />
           </Link>
           <nav className="mvr24-nav" aria-label="Navigazione delle squadre">
             <Link href="/#squadre">Tutte le squadre</Link>
@@ -182,7 +182,7 @@ export default async function RosterPage({ params }: Props) {
             </div>
             {isB2 ? (
               <figure className="mvr24-photo" style={{ margin: 0, position: "relative", minWidth: 0, maxWidth: "100%", overflow: "hidden" }}>
-                <Image src="/images/fotopaginaroster.jpeg" width={696} height={392} priority alt="Atlete della Molinari Volley durante una partita" sizes="(max-width:700px) 100vw, 55vw" style={{ display: "block", width: "100%", height: 420, maxWidth: "100%", objectFit: "cover" }} />
+                <Image src="/ASD-MOLINARI-VOLLEY/images/fotopaginaroster.jpeg" width={696} height={392} priority alt="Atlete della Molinari Volley durante una partita" sizes="(max-width:700px) 100vw, 55vw" style={{ display: "block", width: "100%", height: 420, maxWidth: "100%", objectFit: "cover" }} />
                 <figcaption className="mvr24-photo-label">NAPOLI · PONTICELLI</figcaption>
               </figure>
             ) : (

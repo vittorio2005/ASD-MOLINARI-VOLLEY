@@ -63,7 +63,7 @@ export default function Home() {
               <div className="hero-outline outline-small" aria-hidden="true" />
               <div className="hero-disc">
                 <Image
-                  src="/images/LOGO_HERO_WHITE.PNG"
+                  src="/ASD-MOLINARI-VOLLEY/images/LOGO_HERO_WHITE.PNG"
                   alt="Facilerent Molinari Volley Napoli"
                   width={1565}
                   height={1136}
@@ -154,7 +154,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="footer" style={{ backgroundColor: "#f6f8fd", color: "#182843" }}><div className="container footer-layout"><div className="footer-logo"><Image src="/images/LOGO_2.PNG" alt="Facilerent Molinari Napoli" width={2048} height={617} /><span>Ponticelli · Napoli</span></div><p>Una storia che continua a crescere.</p><a href="#inizio">Torna all'inizio ↑</a></div></footer>
+      <footer className="footer" style={{ backgroundColor: "#f6f8fd", color: "#182843" }}><div className="container footer-layout"><div className="footer-logo"><Image src="/ASD-MOLINARI-VOLLEY/images/LOGO_2.PNG" alt="Facilerent Molinari Napoli" width={2048} height={617} /><span>Ponticelli · Napoli</span></div><p>Una storia che continua a crescere.</p><a href="#inizio">Torna all'inizio ↑</a></div></footer>
     </>
   );
 }

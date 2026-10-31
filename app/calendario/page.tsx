@@ -559,7 +559,7 @@ export default function CalendarioPage() {
         <div className={"mv28-siteBarInner"}>
           <Link href="/" aria-label="Torna alla Home della Molinari Volley" className={"mv28-brand"}>
             <Image
-              src="/images/LOGO_2.PNG"
+              src="/ASD-MOLINARI-VOLLEY/images/LOGO_2.PNG"
               width={250}
               height={75}
               alt="FacileRent Molinari Volley Napoli"

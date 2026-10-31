@@ -133,7 +133,7 @@ export default function AboutSection() {
             <div className="mv-about-brandCenter">
               <div className="mv-about-brandHalo" aria-hidden="true" />
               <Image
-                src="/images/LOGO_HERO_WHITE.PNG"
+                src="/ASD-MOLINARI-VOLLEY/images/LOGO_HERO_WHITE.PNG"
                 alt="Facilerent Molinari Volley Napoli"
                 width={1565}
                 height={1136}

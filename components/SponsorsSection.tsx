@@ -21,7 +21,7 @@ function EnerbiLogo() {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/images/logoenerbi.png"
+        src="/ASD-MOLINARI-VOLLEY/images/logoenerbi.png"
         alt="Logo ufficiale Enerbi - luce e gas"
         width={595}
         height={336}
@@ -71,7 +71,7 @@ export default function SponsorsSection() {
         <span style={tag}>01 / NAMING PARTNER</span>
         <div style={{ width: "100%", height: 116, borderRadius: 9, display: "grid", placeItems: "center", overflow: "hidden", background: "#5C4994" }}>
           <Image
-            src="/images/LOGO_3.PNG"
+            src="/ASD-MOLINARI-VOLLEY/images/LOGO_3.PNG"
             alt="Logo FacileRent Molinari Napoli"
             width={2048}
             height={617}
