@@ -1,0 +1,184 @@
+/* V23 · Stili isolati della pagina roster. Non richiede modifiche a globals.css. */
+.page {
+  --roster-blue: #2456a6;
+  --roster-navy: #0c285d;
+  --roster-dark: #071936;
+  --roster-pink: #ff78b7;
+  --roster-ink: #182843;
+  --roster-muted: #65738b;
+  --roster-line: #dce5f3;
+  position: relative;
+  margin-top: -92px; /* Compensa il padding-top globale pensato per la navbar della home. */
+  min-height: 100vh;
+  background: #f6f8fd;
+  color: var(--roster-ink);
+  font-family: "DM Sans", Arial, sans-serif;
+}
+.page *, .page *::before, .page *::after { box-sizing: border-box; }
+.page a { text-decoration: none; }
+.page a:focus-visible { outline: 3px solid var(--roster-pink); outline-offset: 4px; }
+.wrap { width: min(1180px, calc(100% - 52px)); margin-inline: auto; }
+
+/* Navigazione della pagina squadra: autonoma, senza il menu della home. */
+.header { position: relative; z-index: 20; background: #fff; border-bottom: 1px solid #e9eef7; }
+.headerInner { width: min(1260px, calc(100% - 52px)); margin: auto; min-height: 92px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.brand { display: inline-flex; align-items: center; flex-shrink: 0; line-height: 0; }
+.brandImage { display: block; width: clamp(180px, 19vw, 225px); height: auto; }
+.headerActions { display: flex; align-items: center; gap: 30px; font-size: 13px; font-weight: 800; color: #20385c; }
+.headerActions a { white-space: nowrap; }
+.headerActions .allTeams:hover { color: var(--roster-blue); }
+.join { display: inline-flex; justify-content: center; align-items: center; gap: 18px; min-height: 48px; padding: 0 18px; border-radius: 7px; background: var(--roster-blue); color: #fff; transition: background .2s ease; }
+.join:hover { background: #16427f; }
+
+/* Hero Serie B2: immagine reale + overlay blu per la leggibilità. */
+.hero { position: relative; isolation: isolate; min-height: 610px; overflow: hidden; background: #0b2857; color: #fff; }
+.heroWithPhoto { background: #081d40; }
+.heroPhoto { position: absolute; inset: 0; z-index: -3; overflow: hidden; }
+.heroPhotoImage { object-fit: cover; object-position: center 49%; }
+.heroTint { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(4,19,47,.96) 0%, rgba(5,25,61,.91) 28%, rgba(8,35,82,.65) 53%, rgba(6,27,60,.22) 100%), linear-gradient(0deg, rgba(5,20,49,.70), transparent 55%); }
+.heroGrid { pointer-events: none; position: absolute; inset: 0; z-index: -1; opacity: .08; background-image: linear-gradient(#fff 1px,transparent 1px), linear-gradient(90deg,#fff 1px,transparent 1px); background-size: 130px 130px; }
+.heroAbstract { background: radial-gradient(ellipse at 78% 33%, #2458a4 0%, #12366f 55%, #071936 100%); }
+.heroAbstract .heroTint { background: linear-gradient(90deg, rgba(4,19,47,.68), transparent 90%); }
+.heroDecor { position: absolute; right: max(4%, calc((100vw - 1180px)/2)); top: 16%; z-index: -2; display: grid; place-items: center; width: min(39vw,440px); aspect-ratio: 1; color: rgba(255,120,183,.37); }
+.heroDecor svg { width: 100%; transform: rotate(-13deg); }
+.heroDecor > span { position: absolute; color: #ffffff19; font: 900 clamp(130px,15vw,220px)/1 "Barlow Condensed", Impact, sans-serif; }
+.heroInner { position: relative; width: min(1180px, calc(100% - 52px)); margin: 0 auto; min-height: 610px; display: flex; flex-direction: column; }
+.breadcrumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 27px 0; min-height: 83px; color: #d5e4fb; font-size: 12px; font-weight: 700; }
+.breadcrumbs a:hover { color: var(--roster-pink); }
+.breadcrumbs span[aria-current] { color: #ffc0df; }
+.heroContent { max-width: 720px; padding: 65px 0 78px; margin-block: auto; }
+.eyebrow { display: inline-flex; align-items: center; gap: 13px; margin: 0 0 19px; color: #ffd9ed; font-size: 11px; font-weight: 800; letter-spacing: .18em; }
+.pinkDot { display: inline-block; width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: var(--roster-pink); box-shadow: 0 0 0 4px rgba(255,120,183,.18); }
+.heroTitle { margin: 0; font: 900 clamp(96px,12vw,174px)/.82 "Barlow Condensed", Impact, sans-serif; letter-spacing: -.016em; text-transform: uppercase; }
+.heroTitle span { color: var(--roster-pink); }
+.heroTeamName { margin: 19px 0 13px; font-size: 12px; font-weight: 800; letter-spacing: .2em; color: #ffd5e8; }
+.heroDescription { max-width: 545px; margin: 0; color: #edf3ff; font-size: 15px; line-height: 1.8; text-wrap: pretty; }
+.heroButtons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.primaryButton, .ghostButton { display: inline-flex; align-items: center; justify-content: space-between; gap: 34px; border-radius: 5px; padding: 16px 20px; min-height: 52px; font-size: 13px; font-weight: 800; transition: transform .18s ease, background .18s ease; }
+.primaryButton { background: var(--roster-pink); color: #0b2757; }
+.ghostButton { border: 1px solid rgba(235,244,255,.8); color: #fff; }
+.primaryButton:hover, .ghostButton:hover { transform: translateY(-2px); }
+.primaryButton:hover { background: #ffacd1; }
+.ghostButton:hover { background: #ffffff1e; }
+.heroButtons span { font-size: 19px; }
+.heroFooter { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 20px 0 23px; border-top: 1px solid #ffffff55; font-size: 10px; font-weight: 800; color: #e8f1ff; letter-spacing: .17em; }
+
+/* Presentazione roster e stato di attesa dei dati ufficiali. */
+.rosterSection { padding: 100px 0 110px; scroll-margin-top: 20px; background: #f6f8fd; }
+.sectionLabel { margin: 0 0 20px; font-size: 11px; letter-spacing: .18em; font-weight: 800; color: var(--roster-blue); }
+.sectionHeader { display: grid; grid-template-columns: 1.1fr .9fr; align-items: end; gap: 35px; margin-bottom: 38px; }
+.sectionHeader h2, .nextHeading h2, .staffIntro h2 { margin: 0; font: 900 clamp(56px,6vw,86px)/.9 "Barlow Condensed", Impact, sans-serif; text-transform: uppercase; }
+.sectionHeader h2 span, .nextHeading h2 span, .staffIntro h2 span { color: var(--roster-blue); }
+.sectionHeader > p { margin: 0 0 5px; color: var(--roster-muted); font-size: 14px; line-height: 1.9; }
+.rosterPlaceholder { display: grid; grid-template-columns: .43fr .57fr; min-height: 320px; overflow: hidden; background: #fff; border: 1px solid var(--roster-line); box-shadow: 0 20px 70px rgba(14,39,88,.055); }
+.placeholderArt { position: relative; display: grid; place-items: center; overflow: hidden; background: linear-gradient(135deg, #214f99 0%, #0b285d 100%); color: #ff93c5; }
+.placeholderArt svg { width: min(55%,195px); opacity: .65; transform: rotate(-16deg); }
+.placeholderRing { position: absolute; width: 330px; height: 330px; border: 1px solid #ffffff35; border-radius: 50%; box-shadow: 0 0 0 60px #ffffff08; }
+.placeholderCopy { align-self: center; padding: clamp(26px,4vw,60px); }
+.pendingTag { display: inline-flex; align-items: center; gap: 12px; color: var(--roster-blue); font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.placeholderCopy h3 { margin: 21px 0 17px; font: 900 clamp(43px,4.6vw,69px)/.92 "Barlow Condensed", Impact, sans-serif; }
+.placeholderCopy h3 span { color: var(--roster-blue); }
+.placeholderCopy > p { margin: 0; max-width: 540px; font-size: 14px; line-height: 1.85; color: #5d6d83; }
+.placeholderLink { display: inline-flex; gap: 25px; align-items: center; margin-top: 26px; padding-bottom: 7px; border-bottom: 2px solid var(--roster-pink); color: var(--roster-blue); font-size: 13px; font-weight: 800; }
+.placeholderLink:hover { color: var(--roster-navy); }
+
+/* Staff. */
+.staffBlock { margin-top: 100px; }
+.staffIntro { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 30px; }
+.staffIntro .sectionLabel { margin-bottom: 17px; }
+.staffIntro > p { margin: 0 0 6px; max-width: 440px; font-size: 13px; line-height: 1.8; color: var(--roster-muted); }
+.staffGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+.staffCard { position: relative; display: flex; align-items: center; gap: 20px; padding: 25px; min-width: 0; background: #fff; border: 1px solid var(--roster-line); transition: border-color .2s ease, transform .2s ease; }
+.staffCard:hover { border-color: var(--roster-pink); transform: translateY(-2px); }
+.staffIndex { position: absolute; top: 17px; right: 20px; color: #a0b1cc; font: 800 12px "DM Sans",Arial,sans-serif; }
+.initials { display: grid; place-items: center; width: 68px; height: 68px; border-radius: 50%; flex-shrink: 0; background: var(--roster-navy); color: var(--roster-pink); font: 800 28px "Barlow Condensed",Impact,sans-serif; }
+.staffInfo h3 { font: 900 29px/1 "Barlow Condensed",Impact,sans-serif; margin: 0 0 8px; text-transform: uppercase; }
+.staffInfo p { margin: 0; color: var(--roster-muted); font-size: 12px; line-height: 1.5; }
+
+/* Squadre collegate. */
+.nextSection { padding: 82px 0 96px; background: #e9f0fb; }
+.nextHeading { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin-bottom: 28px; }
+.nextHeading > a { display: inline-flex; align-items: center; gap: 20px; padding-bottom: 7px; border-bottom: 2px solid var(--roster-pink); color: var(--roster-blue); font-weight: 800; font-size: 13px; }
+.relatedGrid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.relatedCard { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 35px; padding: 26px; min-height: 180px; background: #fff; border: 1px solid #d7e2f2; transition: transform .18s ease,border-color .18s ease; }
+.relatedCard:hover { transform: translateY(-3px); border-color: var(--roster-pink); }
+.relatedTop { color: #5876a2; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
+.relatedCard strong { font: 900 clamp(32px,3.5vw,45px)/.98 "Barlow Condensed",Impact,sans-serif; text-transform: uppercase; color: var(--roster-ink); }
+.relatedArrow { position: absolute; right: 25px; top: 18px; color: var(--roster-blue); font-size: 23px; }
+
+/* Invito all'iscrizione e footer. */
+.ctaSection { background: var(--roster-navy); color: #fff; padding: 75px 0; }
+.ctaSection > .wrap { display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+.ctaSection p { margin: 0; color: #ffbadc; font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+.ctaSection h2 { margin: 14px 0 0; font: 900 clamp(60px,7vw,100px)/.91 "Barlow Condensed",Impact,sans-serif; }
+.ctaSection h2 span { color: var(--roster-pink); }
+.ctaButtons { display: flex; flex-wrap: wrap; gap: 12px; }
+.ctaButtons a { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; padding: 16px 19px; font-size: 13px; font-weight: 800; border: 1px solid #ffffffb8; border-radius: 5px; color: #fff; }
+.ctaButtons a:first-child { border-color: var(--roster-pink); background: var(--roster-pink); color: var(--roster-navy); }
+.ctaButtons a:hover { filter: brightness(1.1); }
+.footer { padding: 25px 0; background: var(--roster-dark); color: #d7e5f9; font-size: 12px; }
+.footer > .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
+.footer a:hover { color: var(--roster-pink); }
+
+@media (max-width: 1050px) { .page { margin-top: -78px; } }
+@media (max-width: 850px) {
+  .hero, .heroInner { min-height: 570px; }
+  .heroContent { max-width: 570px; padding: 50px 0 60px; }
+  .heroTitle { font-size: clamp(86px,15vw,130px); }
+  .sectionHeader { grid-template-columns: 1fr; gap: 14px; }
+  .sectionHeader > p { max-width: 720px; }
+  .staffIntro { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .ctaSection > .wrap { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 650px) {
+  .wrap, .heroInner, .headerInner { width: calc(100% - 36px); }
+  .headerInner { min-height: 78px; }
+  .brandImage { width: clamp(155px,44vw,195px); }
+  .headerActions { gap: 9px; font-size: 11px; }
+  .headerActions .allTeams { display: none; }
+  .join { min-height: 42px; padding: 0 12px; gap: 8px; }
+  .hero, .heroInner { min-height: 710px; }
+  .heroPhoto { bottom: 33%; }
+  .heroPhotoImage { object-position: 58% 50%; }
+  .heroTint { background: linear-gradient(0deg,#071936 4%, rgba(7,25,54,.96) 31%, rgba(7,25,54,.37) 67%, rgba(7,25,54,.10) 100%); }
+  .heroAbstract .heroTint { background: linear-gradient(0deg,#071936 8%, rgba(7,25,54,.65) 70%, transparent); }
+  .heroDecor { top: 11%; right: 10%; width: 70%; }
+  .breadcrumbs { min-height: 64px; padding: 18px 0; font-size: 11px; gap: 8px; }
+  .heroContent { margin-top: auto; margin-bottom: 0; padding: 270px 0 42px; }
+  .heroTitle { font-size: clamp(76px,21vw,106px); line-height: .86; }
+  .heroTeamName { font-size: 10px; margin-top: 18px; letter-spacing: .14em; }
+  .heroDescription { font-size: 13px; line-height: 1.7; }
+  .heroButtons { gap: 10px; margin-top: 22px; }
+  .primaryButton,.ghostButton { min-height: 47px; gap: 15px; padding: 12px 13px; font-size: 12px; }
+  .heroFooter { padding: 16px 0; font-size: 9px; letter-spacing: .08em; }
+  .heroFooter span:last-child { display: none; }
+  .rosterSection { padding: 75px 0 80px; }
+  .sectionHeader h2,.nextHeading h2,.staffIntro h2 { font-size: clamp(54px,14vw,72px); }
+  .sectionHeader { margin-bottom: 27px; }
+  .rosterPlaceholder { grid-template-columns: 1fr; }
+  .placeholderArt { min-height: 160px; }
+  .placeholderArt svg { width: 130px; }
+  .placeholderRing { width: 260px; height: 260px; }
+  .placeholderCopy { padding: 28px 25px 35px; }
+  .placeholderCopy h3 { font-size: 50px; }
+  .staffBlock { margin-top: 75px; }
+  .staffGrid, .relatedGrid { grid-template-columns: 1fr; }
+  .staffCard { padding: 20px; }
+  .initials { width: 58px; height: 58px; }
+  .nextHeading { align-items: flex-start; flex-direction: column; }
+  .nextSection { padding: 70px 0 75px; }
+  .ctaSection { padding: 66px 0; }
+  .ctaSection h2 { font-size: clamp(65px,16vw,82px); }
+  .footer > .wrap { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 375px) {
+  .headerInner, .heroInner, .wrap { width: calc(100% - 28px); }
+  .join { padding-inline: 9px; font-size: 10px; }
+  .heroContent { padding-top: 255px; }
+  .heroButtons { flex-direction: column; align-items: stretch; }
+  .primaryButton,.ghostButton { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .primaryButton,.ghostButton,.staffCard,.relatedCard { transition: none; }
+  .primaryButton:hover,.ghostButton:hover,.staffCard:hover,.relatedCard:hover { transform: none; }
+}

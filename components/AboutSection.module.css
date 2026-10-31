@@ -1,0 +1,76 @@
+/* V19 — Sezione "La nostra società". CSS isolato: non modifica Navbar o Hero. */
+.section {
+  background: #f7f9fe;
+  color: #182843;
+  padding: clamp(72px, 8vw, 116px) 0;
+  scroll-margin-top: 100px;
+}
+.inner { width: min(1180px, calc(100% - 52px)); margin: 0 auto; }
+.headingGrid { display: grid; grid-template-columns: 1.04fr .96fr; gap: clamp(28px, 5vw, 80px); align-items: end; margin-bottom: 46px; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 24px; color: #2456a6; font-size: 11px; font-weight: 800; letter-spacing: .2em; }
+.eyebrowDot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: #ff78b7; box-shadow: 0 0 0 4px #ff78b72e; }
+.title { margin: 0; font: 900 clamp(58px, 6vw, 90px)/.95 "Barlow Condensed", Impact, sans-serif; letter-spacing: -.018em; }
+.title span { color: #2456a6; }
+.introduction { padding-bottom: 5px; }
+.lead { font-size: clamp(19px, 2vw, 24px); font-weight: 800; line-height: 1.4; color: #182843; margin: 0 0 15px; }
+.introduction > p:not(.lead) { color: #64728a; font-size: 14px; line-height: 1.9; margin: 0 0 20px; }
+.textLink { display: inline-flex; align-items: center; gap: 20px; font-size: 13px; font-weight: 800; color: #2456a6; padding: 8px 0; border-bottom: 2px solid #ff78b7; transition: gap .2s ease; }
+.textLink:hover { gap: 27px; }
+.textLink:focus-visible { outline: 3px solid #ff78b7; outline-offset: 5px; }
+.storyGrid { display: grid; grid-template-columns: .91fr 1.09fr; gap: 0; min-height: 525px; margin-bottom: 56px; }
+.brandPanel { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; min-height: 525px; padding: 30px; overflow: hidden; color: white; background: radial-gradient(circle at 30% 25%, #3567b7 0%, #1b468a 50%, #0b285d 100%); isolation: isolate; }
+.brandGrid { position: absolute; inset: 0; z-index: -1; opacity: .1; background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 82px 82px; pointer-events: none; }
+.brandKicker { margin: 0; font-size: 11px; font-weight: 800; letter-spacing: .2em; color: #dce8ff; }
+.brandCenter { display: grid; place-items: center; flex: 1; position: relative; min-height: 260px; }
+.brandHalo { position: absolute; width: min(310px, 80%); aspect-ratio: 1; border: 1px solid #ff78b7aa; border-radius: 50%; box-shadow: 0 0 0 28px #ffffff0b, 0 0 0 55px #ffffff08; pointer-events: none; }
+.brandLogo { position: relative; display: block; width: min(285px, 76%); height: auto; object-fit: contain; filter: drop-shadow(0 14px 24px #03112f77); }
+.brandFooter { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: #ebf2ff; font-size: 10px; font-weight: 800; letter-spacing: .14em; }
+.brandFooter span:nth-child(even) { color: #ff78b7; }
+.history { display: flex; flex-direction: column; background: #fff; border: 1px solid #e3eaf4; border-left: 0; padding: clamp(26px, 4vw, 47px); }
+.historyHeading p { margin: 0 0 15px; font-size: 10px; font-weight: 800; color: #2456a6; letter-spacing: .2em; }
+.historyHeading h3 { margin: 0 0 28px; font: 900 clamp(33px, 3.2vw, 46px)/1.05 "Barlow Condensed", Impact, sans-serif; }
+.historyHeading h3 span { color: #2456a6; }
+.timeline { display: grid; gap: 0; padding: 0; margin: 0; list-style: none; }
+.milestone { display: grid; grid-template-columns: 68px 1fr; gap: 20px; padding: 17px 0 18px; border-top: 1px solid #e5ecf6; }
+.year { color: #f45198; font: 900 28px/1 "Barlow Condensed", Impact, sans-serif; letter-spacing: .02em; }
+.milestone h4 { margin: 0 0 5px; color: #162a4e; font-size: 14px; line-height: 1.4; font-weight: 800; }
+.milestone p { margin: 0; color: #64728a; font-size: 12px; line-height: 1.75; }
+.historyNote { margin: auto 0 0; padding-top: 16px; color: #8090a7; font-size: 11px; line-height: 1.7; }
+.valuesHeading { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; margin-bottom: 18px; }
+.valuesHeading h3 { margin: 0; color: #182843; font: 900 clamp(26px, 3vw, 34px)/1 "Barlow Condensed", Impact, sans-serif; }
+.valuesHeading span { color: #2456a6; font-size: 10px; font-weight: 800; letter-spacing: .18em; }
+.valuesGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.valueCard { position: relative; min-height: 180px; padding: 26px; background: #fff; border: 1px solid #e0e7f2; overflow: hidden; transition: transform .2s, box-shadow .2s; }
+.valueCard:hover { transform: translateY(-4px); box-shadow: 0 14px 30px #10305f17; }
+.valueNumber { font-size: 12px; font-weight: 800; color: #2456a6; }
+.valueCard h4 { margin: 20px 0 8px; font: 900 34px/1 "Barlow Condensed", Impact, sans-serif; text-transform: uppercase; }
+.valueCard p { max-width: 260px; margin: 0; color: #64728a; font-size: 12px; line-height: 1.7; }
+.valueAccent { position: absolute; right: 0; bottom: 0; height: 4px; width: 35%; background: #ff78b7; }
+@media (max-width: 850px) {
+  .headingGrid { grid-template-columns: 1fr; gap: 24px; }
+  .storyGrid { grid-template-columns: 1fr; }
+  .brandPanel { min-height: 380px; }
+  .history { border-left: 1px solid #e3eaf4; border-top: 0; }
+}
+@media (max-width: 600px) {
+  .section { padding: 66px 0 76px; scroll-margin-top: 85px; }
+  .inner { width: min(100% - 36px, 1180px); }
+  .title { font-size: clamp(51px, 11.5vw, 69px); }
+  .eyebrow { font-size: 10px; letter-spacing: .13em; }
+  .lead { font-size: 19px; }
+  .introduction > p:not(.lead) { font-size: 13px; }
+  .brandPanel { min-height: 310px; padding: 22px; }
+  .brandCenter { min-height: 215px; }
+  .brandLogo { width: min(240px, 68%); }
+  .brandHalo { width: min(240px, 72%); box-shadow: 0 0 0 20px #ffffff0b, 0 0 0 42px #ffffff08; }
+  .history { padding: 26px 20px; }
+  .historyHeading h3 { font-size: 35px; }
+  .milestone { grid-template-columns: 58px 1fr; gap: 12px; }
+  .year { font-size: 25px; }
+  .valuesHeading { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .valuesGrid { grid-template-columns: 1fr; }
+  .valueCard { min-height: 155px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .valueCard, .textLink { transition: none; }
+}
