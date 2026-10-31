@@ -121,7 +121,7 @@ export default function Home() {
               <p className="news-overline">STAGIONE SPORTIVA</p>
               <h3>CALENDARIO<br />E RISULTATI</h3>
               <p>Scopri le prossime gare, i risultati e la classifica della Serie B2. I dati sono aggiornati manualmente e riportano la data di riferimento.</p>
-              <a className="news-preview-bottom" href="/calendario" style={{ textDecoration: "none" }} aria-label="Apri calendario e risultati della Molinari Volley"><span>SCOPRI CALENDARIO E CLASSIFICHE</span><span aria-hidden="true">↗</span></a>
+              <a className="news-preview-bottom" href="/ASD-MOLINARI-VOLLEY/calendario/" style={{ textDecoration: "none" }} aria-label="Apri calendario e risultati della Molinari Volley"><span>SCOPRI CALENDARIO E CLASSIFICHE</span><span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </section>
