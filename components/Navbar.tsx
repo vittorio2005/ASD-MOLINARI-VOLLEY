@@ -7,7 +7,7 @@ const links = [
   { label: "La società", href: "#societa", id: "societa" },
   { label: "Le squadre", href: "#squadre", id: "squadre" },
   { label: "Staff", href: "#staff", id: "staff" },
-  { label: "Calendario", href: "/calendario", id: "calendario" },
+  { label: "Calendario", href: "/ASD-MOLINARI-VOLLEY/calendario/", id: "calendario" },
   { label: "Palmarès", href: "#palmares", id: "palmares" },
   { label: "Sponsor", href: "#sponsor", id: "sponsor" },
 ];
