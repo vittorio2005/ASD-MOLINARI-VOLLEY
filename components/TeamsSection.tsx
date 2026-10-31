@@ -131,7 +131,7 @@ export default function TeamsSection() {
                   <h3>{team.name}</h3>
                   <p className="mv21-cardDescription">{team.description}</p>
                 </div>
-                <a className="mv21-cardLink" href={`/squadre/${team.slug}`} >
+                <a className="mv21-cardLink" href={`/ASD-MOLINARI-VOLLEY/squadre/${team.slug}/`} >
                   Scopri il roster <span aria-hidden="true">↗</span>
                 </a>
                 {team.featured && <span className="mv21-volley-mark" aria-hidden="true" />}
