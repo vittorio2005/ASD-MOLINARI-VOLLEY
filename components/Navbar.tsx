@@ -8,6 +8,7 @@ const links = [
   { label: "Le squadre", href: "#squadre", id: "squadre" },
   { label: "Staff", href: "#staff", id: "staff" },
   { label: "Calendario", href: "/ASD-MOLINARI-VOLLEY/calendario/", id: "calendario" },
+  { label: "News", href: "/ASD-MOLINARI-VOLLEY/news/", id: "news" },
   { label: "Palmarès", href: "#palmares", id: "palmares" },
   { label: "Sponsor", href: "#sponsor", id: "sponsor" },
 ];
@@ -70,7 +71,7 @@ const navbarStyles = `
 .mv18-toggle, .mv18-overlay, .mv18-panel { display: none !important; }
 .mv18-toggle { user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
 .mv18-text-close { display: none !important; }
-@media (max-width: 1050px) {
+@media (max-width: 1180px) {
   .mv18-header { height: 78px; }
   .mv18-header.mv18-scrolled { height: 72px; }
   .mv18-inner { width: min(1180px,calc(100% - 36px)); gap: 12px; }
@@ -158,10 +159,14 @@ const navbarStyles = `
 }
 `;
 
-export default function Navbar() {
+export default function Navbar({ fromSubpage = false }: { fromSubpage?: boolean }) {
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("inizio");
+
+  const menuHref = (href: string) => fromSubpage && href.startsWith("#")
+    ? `/ASD-MOLINARI-VOLLEY/${href}`
+    : href;
 
   const closeMenu = () => {
     if (checkboxRef.current) checkboxRef.current.checked = false;
@@ -193,7 +198,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth > 1050) closeMenu();
+      if (window.innerWidth > 1180) closeMenu();
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -213,19 +218,19 @@ export default function Navbar() {
 
       <header className={`site-header mv18-header ${scrolled ? "mv18-scrolled" : ""}`}>
         <div className="container nav-inner mv18-inner">
-          <a className="brand mv18-brand" href="#inizio" onClick={closeMenu} aria-label="Facilerent Molinari Volley Napoli — Home">
+          <a className="brand mv18-brand" href={fromSubpage ? "/ASD-MOLINARI-VOLLEY/" : "#inizio"} onClick={closeMenu} aria-label="Facilerent Molinari Volley Napoli — Home">
             <Image src="/ASD-MOLINARI-VOLLEY/images/LOGO_2.PNG" width={2048} height={617} alt="Facilerent Molinari Volley Napoli" className="nav-logo mv18-logo" priority />
           </a>
 
           <nav className="mv18-desktop" aria-label="Navigazione principale">
             {links.map((item) => (
-              <a key={item.id} href={item.href} className={active === item.id ? "mv18-active" : ""} aria-current={active === item.id ? "location" : undefined}>
+              <a key={item.id} href={menuHref(item.href)} className={(fromSubpage ? item.id === "news" : active === item.id) ? "mv18-active" : ""} aria-current={fromSubpage && item.id === "news" ? "page" : (!fromSubpage && active === item.id ? "location" : undefined)}>
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <a className="mv18-join" href="#contatti"><span>Unisciti a Noi</span><Arrow /></a>
+          <a className="mv18-join" href={menuHref("#contatti")}><span>Unisciti a Noi</span><Arrow /></a>
 
           <label htmlFor="mv18-menu-checkbox" className="mv18-toggle">
             <span className="mv18-bars" aria-hidden="true"><i /><i /><i /></span>
@@ -244,13 +249,13 @@ export default function Navbar() {
         </div>
         <nav className="mv18-mobile-nav" aria-label="Navigazione smartphone">
           {links.map((item, index) => (
-            <a key={item.id} href={item.href} onClick={closeMenu} className={active === item.id ? "mv18-active" : ""}>
+            <a key={item.id} href={menuHref(item.href)} onClick={closeMenu} className={(fromSubpage ? item.id === "news" : active === item.id) ? "mv18-active" : ""}>
               <span className="mv18-number">{String(index + 1).padStart(2, "0")}</span>
               <span>{item.label}</span>
               <span className="mv18-arrow" aria-hidden="true">↗</span>
             </a>
           ))}
-          <a href="#contatti" onClick={closeMenu} className="mv18-mobile-join"><span>Unisciti a Noi</span><Arrow /></a>
+          <a href={menuHref("#contatti")} onClick={closeMenu} className="mv18-mobile-join"><span>Unisciti a Noi</span><Arrow /></a>
         </nav>
       </div>
     </div>
