@@ -82,9 +82,9 @@ export default function FirstTeamSpotlight() {
   if (!firstTeam) return null;
 
   return (
-    <section className="mv31-section" id="prima-squadra" aria-labelledby="first-team-title">
+    <section className="mv31-section" id="squadre" aria-labelledby="first-team-title">
       <style dangerouslySetInnerHTML={{ __html: spotlightCSS }} />
-      <div className="mv31-wrap">
+      <div className="mv31-wrap" id="prima-squadra">
         <div className="mv31-intro">
           <div>
             <p className="mv31-kicker"><span aria-hidden="true" /> 01 / LA PRIMA SQUADRA</p>
