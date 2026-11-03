@@ -179,6 +179,9 @@ export async function getAuthorizedGallerySession(): Promise<GallerySession | nu
       {}, stored.access_token
     );
     if (!admins.length) throw new Error("Accesso amministratore revocato.");
+    const factors = (user as typeof user & { factors?: GalleryMfaFactor[] }).factors ?? [];
+    if (factors.some(f => f.factor_type === "totp" && f.status === "verified") &&
+        jwtAal(stored.access_token) !== "aal2") return null;
     return { access_token: stored.access_token, refresh_token: "", expires_at: stored.expires_at, user };
   } catch {
     forgetGallerySession();
