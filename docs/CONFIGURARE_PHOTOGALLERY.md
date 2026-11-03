@@ -101,10 +101,11 @@ Le immagini sono ridotte e convertite in WebP/JPEG, ma la dimensione
 effettiva può variare. La capacità tipica è ~1.000–4.000 immagini
 secondo compressione e spazio già occupato.
 
-Il login è mantenuto **solo nella memoria della pagina** (per sicurezza
-non vengono salvati token nel localStorage): ricaricando il pannello
-si deve eseguire nuovamente l'accesso. Se la sessione scade durante un
-caricamento, ripeti l'accesso.
+Il pannello conserva il solo **access token** in `sessionStorage`
+(nessuna password e nessun refresh token persistente). La sessione
+scade automaticamente con il token e viene rivalidata con Supabase.
+Il pulsante "Accesso admin" appare solo dopo verifica dell'autorizzazione
+e, se il fattore TOTP è attivo, dopo la conferma MFA.
 
 ## 5. Pubblicazione GitHub Pages
 
@@ -140,3 +141,33 @@ dal workflow esistente.
   e inattività: controllali nel Dashboard Supabase.
 - In caso di `403` o `42501`, verifica account amministratore,
   policy RLS, key e configurazione del bucket.
+
+## 7. Sicurezza: audit RLS e autenticazione a due fattori (MFA)
+
+**Non eseguire subito lo script MFA obbligatorio.** Procedura consigliata:
+
+1. Nel SQL Editor esegui `supabase/photogallery-security-audit.sql`, un controllo
+   di sola lettura. Verifica RLS sulle tre tabelle, permessi SELECT-only per
+   anon sugli album/foto e le policy di scrittura sul bucket Storage.
+2. Aggiorna il branch `sviluppo-v31` e accedi al pannello Photogallery.
+3. Nel riquadro **Sicurezza account · 2FA**, premi
+   **Configura app Authenticator**, scansiona il QR con un'app TOTP e
+   conferma il codice di sei cifre. Il QR è un segreto: non condividerlo.
+4. Esegui logout, ripeti il login e verifica che venga richiesto il codice
+   dell'app. Prova che la gestione album continui a funzionare.
+5. Attiva la 2FA anche per tutti gli altri amministratori e predisponi
+   il recupero dell'account in caso di perdita del dispositivo.
+6. **Solo dopo**, esegui `supabase/photogallery-mfa-enforce.sql`
+   nel SQL Editor: introduce l'obbligo di JWT `aal2` nelle policy RLS
+   di scrittura su album, foto e Storage.
+7. Prova da una finestra privata: album pubblicati visibili, pulsante admin
+   assente, scritture negate senza account admin e secondo fattore.
+
+**L'URL del pannello non è segreto.** La sicurezza dipende dalle policy.
+Il bucket foto è pubblico: gli URL diretti delle foto possono essere letti
+anche per gli album in bozza. Non caricare materiale riservato.
+
+**Non rieseguire `supabase/photogallery.sql`** dopo l'attivazione MFA
+senza rieseguire anche lo script MFA: il primo ripristina policy precedenti.
+I file SQL su GitHub non modificano automaticamente il database live;
+solo la loro esecuzione manuale nel Dashboard li applica.
