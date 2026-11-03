@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  categories, CLUB_NAME, MATCHES_LAST_CHECK, matches, standingsLinks,
+  byeRounds, categories, CLUB_NAME, MATCHES_LAST_CHECK, matches, standingsLinks,
   type CategoryId, type VolleyMatch,
 } from "../../data/matches";
 
@@ -108,6 +108,7 @@ const calendarCSS = String.raw`
 .mv28-primaryLink { display:inline-flex; padding:13px 18px; color:#fff; background:var(--vblue); font-size:12px; font-weight:800; border-radius:7px; }
 .mv28-primaryLink:hover { background:#173e83; }
 .mv28-mutedInfo { display:block; font-size:12px; color:#73819a; }
+.mv28-byeNote { margin: 20px 0 0; color: #536887; font-size: 12px; line-height: 1.8; }
 .mv28-dataFooter { margin-top:17px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; color:#78859b; font-size:11px; line-height:1.6; }
 .mv28-dataFooter strong { color:#4b607d; }
 .mv28-dataFooter a { color:var(--vblue); font-weight:800; }
@@ -302,32 +303,30 @@ const CATEGORY_SHORT: Record<CategoryId, string> = {
 
 
 /**
- * SERIE B2 - GIRONE I, stagione 2026/2027.
- * Fotografia della graduatoria DOPO LA 2ª GIORNATA (26/10/2026).
- * Fonte: riepilogo FIPAV Girone I pubblicato sul sito della Polisportiva Orsa Capurso;
- * verifica incrociata punti: FIPAV Puglia Magazine del 26/10/2026.
- * ATTENZIONE: non comprende le gare del 31/10/2026. Aggiornare TUTTE le righe
- * e la data insieme, non ricalcolare la graduatoria dalle sole gare Molinari.
+ * Classifica Serie B2 femminile · Girone I, dopo la 3ª giornata.
+ * Trascrizione dal foglio "Classifica" dell'Excel FIPAV 2026/27 fornito il 3/11/2026.
+ * Ordine federale conservato, incluso il fatto che alcune squadre hanno 2 gare
+ * disputate per via del turno di riposo. La riga tecnica RIPOSA è esclusa.
+ * Non è una classifica in tempo reale.
  */
-const STANDINGS_DATE = "26 ottobre 2026";
-const STANDINGS_ROUND = "2ª giornata";
-const STANDINGS_SOURCE = "https://www.orsacapurso.it/pagina-resp.aspx?BoxOrigin=96188&PId=43258&PersonaId=252936";
+const STANDINGS_DATE = "3 novembre 2026";
+const STANDINGS_ROUND = "3ª giornata";
+const STANDINGS_SOURCE = "https://www.federvolley.it/serie-b2-femminile-classifica";
 const STANDINGS_TEAMS = [
-  { name: "Nexum Soverato",                  played: 2, won: 2, lost: 0, sf: 6, sa: 1, points: 6 },
-  { name: "Santoro Creative Hub Salerno",    played: 2, won: 2, lost: 0, sf: 6, sa: 1, points: 6 },
-  { name: "Cuccvolley Meta di Sorrento",     played: 2, won: 2, lost: 0, sf: 6, sa: 3, points: 5 },
-  { name: "Labruna Monopoli",                played: 1, won: 1, lost: 0, sf: 3, sa: 0, points: 3 },
-  { name: "Eurimpianti Oria",                played: 2, won: 1, lost: 1, sf: 4, sa: 3, points: 3 },
-  { name: "Leo Constructions Monteroni",    played: 2, won: 1, lost: 1, sf: 4, sa: 4, points: 3 },
-  { name: "Orsacuti Volley Capurso",         played: 2, won: 1, lost: 1, sf: 3, sa: 3, points: 3 },
-  { name: "FacileRent Molinari Napoli",      played: 2, won: 1, lost: 1, sf: 3, sa: 3, points: 3, molinari: true },
-  { name: "Academy Volley Gioia",           played: 2, won: 1, lost: 1, sf: 4, sa: 5, points: 2 },
-  { name: "Pallavolo Rossano",               played: 2, won: 0, lost: 2, sf: 4, sa: 6, points: 2 },
-  { name: "Enzo FLV Cerignola",             played: 1, won: 0, lost: 1, sf: 1, sa: 3, points: 0 },
-  { name: "Villa Sorriso Volley San Lucido", played: 2, won: 0, lost: 2, sf: 0, sa: 6, points: 0 },
-  { name: "Lavinia Group Volley Trani",     played: 2, won: 0, lost: 2, sf: 0, sa: 6, points: 0 },
+  { name: "SantoroCreativeHub Salerno", played: 3, won: 3, lost: 0, sf: 9, sa: 1, points: 9 },
+  { name: "G.F.C. Energy Soverato", played: 3, won: 3, lost: 0, sf: 9, sa: 1, points: 9 },
+  { name: "Orsacuti Volley Capurso", played: 3, won: 2, lost: 1, sf: 6, sa: 4, points: 6 },
+  { name: "Cuccvolley Napoli", played: 3, won: 2, lost: 1, sf: 8, sa: 6, points: 6 },
+  { name: "Leo Constructions Monteroni", played: 3, won: 2, lost: 1, sf: 7, sa: 6, points: 5 },
+  { name: "Pallavolo Rossano ASD", played: 3, won: 1, lost: 2, sf: 7, sa: 7, points: 5 },
+  { name: "Enzo FLV Cerignola", played: 2, won: 1, lost: 1, sf: 4, sa: 3, points: 3 },
+  { name: "Eurimpianti Oria", played: 2, won: 1, lost: 1, sf: 4, sa: 3, points: 3 },
+  { name: "AS Labruna Monopoli", played: 2, won: 1, lost: 1, sf: 3, sa: 3, points: 3 },
+  { name: "FacileRent Molinari Napoli", played: 3, won: 1, lost: 2, sf: 4, sa: 6, points: 3, molinari: true },
+  { name: "Academy Volley Gioia", played: 3, won: 1, lost: 2, sf: 4, sa: 8, points: 2 },
+  { name: "Lavinia Group Volley Trani", played: 3, won: 0, lost: 3, sf: 1, sa: 9, points: 0 },
+  { name: "Villa Sorriso Pall. S. Lucido", played: 3, won: 0, lost: 3, sf: 0, sa: 9, points: 0 },
 ] as const;
-
 
 const italianDate = new Intl.DateTimeFormat("it-IT", {
   timeZone: "Europe/Rome",
@@ -459,7 +458,7 @@ function MatchesSection({ mode = "full", category, setCategory, tab, setTab }: P
               <div>
                 <span className="mv28-miniEyebrow">SERIE B2 FEMMINILE · GIRONE I</span>
                 <h2>LA CLASSIFICA<span></span></h2>
-                <p>Stagione 2026/27 · situazione alla {STANDINGS_ROUND}, rilevata il <strong>{STANDINGS_DATE}</strong>.</p>
+                <p>Stagione 2026/27 · situazione dopo la {STANDINGS_ROUND}, secondo il file FIPAV ricevuto il <strong>{STANDINGS_DATE}</strong>.</p>
               </div>
               <a className="mv28-rankingSource" href={STANDINGS_SOURCE} target="_blank" rel="noopener noreferrer">Vedi fonte ↗</a>
             </div>
@@ -527,9 +526,17 @@ function MatchesSection({ mode = "full", category, setCategory, tab, setTab }: P
         </div>
       )}
 
+      {(category === "serie-b2" || category === "all") && (
+        <p className="mv28-byeNote">
+          Turni di riposo Serie B2: {byeRounds.map((bye, index) => (
+            <span key={bye.round}>{index > 0 ? " · " : ""}{bye.round}ª giornata ({italianDate.format(parseDay(bye.date))})</span>
+          ))}. Non sono gare.
+        </p>
+      )}
+
       <div className={"mv28-dataFooter"}>
         <span><span className={"mv28-liveDot"} aria-hidden="true" /> Dati verificati fino al <strong>{MATCHES_LAST_CHECK}</strong> · aggiornamento manuale, non in tempo reale.</span>
-        <a href="https://volleynetworkitalia.it/squadra.php?team=2921" target="_blank" rel="noopener noreferrer">Volley Network Italia ↗</a>
+        <a href="https://www.federvolley.it/serie-b2-femminile-calendario" target="_blank" rel="noopener noreferrer">Calendario FIPAV ↗</a>
       </div>
     </section>
   );
