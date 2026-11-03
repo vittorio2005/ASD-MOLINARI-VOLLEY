@@ -84,6 +84,53 @@ export async function loginGallery(email: string, password: string): Promise<Gal
   if (!rows.length) throw new Error("Questo account non è autorizzato a gestire la Photogallery.");
   return session;
 }
+
+/** Sessione limitata alla scheda corrente: non memorizziamo password o refresh token. */
+const gallerySessionKey = "molinari-gallery-admin-session";
+
+export function rememberGallerySession(session: GallerySession): void {
+  try {
+    window.sessionStorage.setItem(gallerySessionKey, JSON.stringify({
+      access_token: session.access_token,
+      expires_at: session.expires_at,
+      user: session.user,
+    }));
+  } catch { /* modalità privata o storage non disponibile */ }
+}
+
+export function forgetGallerySession(): void {
+  try { window.sessionStorage.removeItem(gallerySessionKey); } catch { /* storage non disponibile */ }
+}
+
+export async function getAuthorizedGallerySession(): Promise<GallerySession | null> {
+  if (!galleryConfigured || typeof window === "undefined") return null;
+  let stored: Partial<GallerySession> | null = null;
+  try {
+    const raw = window.sessionStorage.getItem(gallerySessionKey);
+    if (!raw) return null;
+    stored = JSON.parse(raw) as Partial<GallerySession>;
+  } catch { forgetGallerySession(); return null; }
+
+  if (!stored?.access_token || !stored.user?.id ||
+      !stored.expires_at || Date.now() >= stored.expires_at * 1000) {
+    forgetGallerySession();
+    return null;
+  }
+  try {
+    const user = await request<{ id: string; email?: string }>("/auth/v1/user", {}, stored.access_token);
+    if (user.id !== stored.user.id) throw new Error("Utente non corrispondente.");
+    const admins = await request<{ user_id: string }[]>(
+      "/rest/v1/gallery_admins?select=user_id&user_id=eq." + encodeURIComponent(user.id),
+      {}, stored.access_token
+    );
+    if (!admins.length) throw new Error("Accesso amministratore revocato.");
+    return { access_token: stored.access_token, refresh_token: "", expires_at: stored.expires_at, user };
+  } catch {
+    forgetGallerySession();
+    return null;
+  }
+}
+
 export async function createGalleryAlbum(input: AlbumInput, session: GallerySession): Promise<GalleryAlbum> {
   const rows = await request<GalleryAlbum[]>("/rest/v1/gallery_albums?select=*", {
     method: "POST",
