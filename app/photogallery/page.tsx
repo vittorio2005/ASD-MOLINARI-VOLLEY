@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function GalleryPage() {
   return (
     <>
-      <Navbar fromSubpage />
+      <Navbar fromSubpage activePage="photogallery" />
       <GalleryArchive />
       <footer className="mvg-footer">
         <div className="mvg-wrap">FacileRent Molinari Volley Napoli · Ponticelli</div>
