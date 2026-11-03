@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import { galleryStyles } from "./GalleryShared";
 import { galleryBasePath, galleryConfigured, galleryPhotoUrl, listGalleryAlbums, type GalleryAlbum } from "../lib/gallery";
 
@@ -43,7 +43,7 @@ const carouselCSS = String.raw`
 }
 .mv31cinema-slide[data-position="prev"] {
   z-index: 2; opacity: .72; pointer-events: auto;
-  transform: translate(-107%, -50%) scale(.77) rotateY(9deg);
+  transform: translate(-85%, -50%) scale(.77) rotateY(9deg);
   filter: brightness(.48) saturate(.65);
 }
 .mv31cinema-slide[data-position="next"] {
@@ -83,8 +83,8 @@ const carouselCSS = String.raw`
 @media(max-width:700px){
  .mv31cinema-stage { height: clamp(255px, 66vw, 375px); }
  .mv31cinema-slide { width: 82%; border-radius: 12px; }
- .mv31cinema-slide[data-position="prev"] { transform: translate(-113%, -50%) scale(.75); }
- .mv31cinema-slide[data-position="next"] { transform: translate(13%, -50%) scale(.75); }
+ .mv31cinema-slide[data-position="prev"] { transform: translate(-81%, -50%) scale(.75); }
+ .mv31cinema-slide[data-position="next"] { transform: translate(7%, -50%) scale(.75); }
  .mv31cinema-caption { left: 16px; bottom: 18px; }
  .mv31cinema-caption strong { font-size: 29px; }
  .mv31cinema-demoTag { top: 10px; left: 11px; font-size: 9px; }
@@ -131,7 +131,7 @@ export default function GallerySection() {
   }, [total]);
   useEffect(() => { setActive(0); }, [total]);
 
-  const stageKey = (event: React.KeyboardEvent<HTMLElement>) => {
+  const stageKey = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key === "ArrowLeft") { event.preventDefault(); move(-1); }
     if (event.key === "ArrowRight") { event.preventDefault(); move(1); }
   };
