@@ -106,7 +106,7 @@ export default function TeamsSection() {
   return (
     <>
       <style>{teamStyles}</style>
-      <section id="squadre" className="mv21-teams" aria-labelledby="mv21-title">
+      <section id="categorie-inferiori" className="mv21-teams" aria-labelledby="mv21-title">
         <div className="mv21-inner">
           <div className="mv21-heading">
             <div>
