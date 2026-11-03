@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import AboutSection from "../components/AboutSection";
 import TeamsSection from "../components/TeamsSection";
 import FirstTeamSpotlight from "../components/FirstTeamSpotlight";
+import NewsSection from "../components/NewsSection";
 import SponsorsSection from "../components/SponsorsSection";
 
 const staff = [
@@ -89,6 +90,8 @@ export default function Home() {
 
         <FirstTeamSpotlight />
 
+        <NewsSection />
+
         <TeamsSection />
 
         <AboutSection />
@@ -115,7 +118,7 @@ export default function Home() {
         <section className="news section" style={{ backgroundColor: "#2456a6", color: "#ffffff" }} id="aggiornamenti" aria-labelledby="news-title">
           <div className="container news-layout">
             <div>
-              <p className="section-index light-index">04 / DENTRO IL CAMPO</p>
+              <p className="section-index light-index">CALENDARIO / DENTRO IL CAMPO</p>
               <h2 id="news-title" className="section-title light-title">OGNI PUNTO<br /><span>HA UNA STORIA.</span></h2>
               <p className="news-description">Partite, risultati e classifiche della Serie B2 in un unico spazio. Segui il percorso della Molinari, giornata dopo giornata.</p>
             </div>
