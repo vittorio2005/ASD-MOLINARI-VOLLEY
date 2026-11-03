@@ -3,8 +3,7 @@
 
 import { teams } from "../data/teams";
 
-// La Serie B2 è presentata separatamente nella Home.
-const otherTeams = teams.filter((team) => team.slug !== "serie-b2");
+// Le otto squadre includono anche la Serie B2, evidenziata nella Home.
 
 const teamStyles = String.raw`
 .mv21-teams {
@@ -106,17 +105,17 @@ export default function TeamsSection() {
   return (
     <>
       <style>{teamStyles}</style>
-      <section id="categorie-inferiori" className="mv21-teams" aria-labelledby="mv21-title">
+      <section id="squadre" className="mv21-teams" aria-labelledby="mv21-title">
         <div className="mv21-inner">
           <div className="mv21-heading">
             <div>
               <p className="mv21-kicker"><span className="mv21-kicker-dot" aria-hidden="true" /> 02 / IL NOSTRO MONDO</p>
               <h2 id="mv21-title">OGNI SQUADRA.<br /><span>UNA SOLA PASSIONE.</span></h2>
             </div>
-            <p className="mv21-heading-desc">Dalla Prima Divisione alle prime esperienze con Volley S3: sette categorie, un percorso comune fatto di sport, crescita e appartenenza.</p>
+            <p className="mv21-heading-desc">Dalla prima squadra in Serie B2 alle prime esperienze con Volley S3: otto categorie, una sola passione, un percorso comune di crescita e appartenenza.</p>
           </div>
           <div className="mv21-grid">
-            {otherTeams.map((team, index) => (
+            {teams.map((team) => (
               <article
                 className={[
                   "mv21-card",
@@ -126,7 +125,7 @@ export default function TeamsSection() {
                 key={team.number}
               >
                 <div className="mv21-cardHead">
-                  <span className="mv21-number">{String(index + 1).padStart(2, "0")} / {String(otherTeams.length).padStart(2, "0")}</span>
+                  <span className="mv21-number">{team.number} / 08</span>
                   <span className="mv21-arrow" aria-hidden="true">↗</span>
                 </div>
                 <div className="mv21-cardBody">
