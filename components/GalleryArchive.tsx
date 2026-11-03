@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { GalleryAlbumCard, GalleryEmpty, galleryStyles } from "./GalleryShared";
 import {
-  albumLink, galleryConfigured, galleryDate, galleryPhotoUrl,
+  albumLink, galleryConfigured, galleryDate, galleryPhotoUrl, getAuthorizedGallerySession,
   listGalleryAlbums, type GalleryAlbum,
 } from "../lib/gallery";
 
@@ -12,6 +12,7 @@ export default function GalleryArchive() {
   const [error, setError] = useState("");
   const [category, setCategory] = useState("Tutte le squadre");
   const [selectedId, setSelectedId] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!galleryConfigured) return;
@@ -26,6 +27,14 @@ export default function GalleryArchive() {
       if (!cancelled) setLoading(false);
     });
     return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    getAuthorizedGallerySession().then(session => {
+      if (active) setIsAdmin(Boolean(session));
+    });
+    return () => { active = false; };
   }, []);
 
   const categories = [...new Set(albums.map((album) => album.category))];
@@ -50,9 +59,11 @@ export default function GalleryArchive() {
           <p className="mvg-kicker">MOLINARI VOLLEY / GLI SCATTI</p>
           <h1 className="mvg-title">LA NOSTRA<br/><span>PHOTOGALLERY.</span></h1>
           <p>Le fotografie ufficiali delle partite e delle squadre, raccolte in album per data e categoria.</p>
+          {isAdmin ? (
           <a href="/ASD-MOLINARI-VOLLEY/admin/photogallery/" aria-label="Accedi al pannello amministratore della Photogallery" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 20, padding: "10px 16px", border: "1px solid rgba(255,255,255,.45)", borderRadius: 8, color: "inherit", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
             <span aria-hidden="true">🔒</span> Accesso admin
           </a>
+          ) : null}
         </div>
       </section>
       <section className="mvg-archive" aria-label="Album fotografici">
