@@ -2,6 +2,7 @@ import Image from "next/image";
 import Navbar from "../components/Navbar";
 import AboutSection from "../components/AboutSection";
 import TeamsSection from "../components/TeamsSection";
+import FirstTeamSpotlight from "../components/FirstTeamSpotlight";
 import SponsorsSection from "../components/SponsorsSection";
 
 const staff = [
@@ -85,6 +86,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <FirstTeamSpotlight />
 
         <AboutSection />
 
