@@ -89,9 +89,9 @@ export default function Home() {
 
         <FirstTeamSpotlight />
 
-        <AboutSection />
-
         <TeamsSection />
+
+        <AboutSection />
 
         <section className="staff section" style={{ backgroundColor: "#ffffff", color: "#182843" }} id="staff" aria-labelledby="staff-title">
           <div className="container">
