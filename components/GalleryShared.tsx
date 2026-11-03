@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import { albumLink, galleryDate, galleryPhotoUrl, type GalleryAlbum } from "../lib/gallery";
 
 export const galleryStyles = String.raw`
@@ -75,7 +76,7 @@ export const galleryStyles = String.raw`
 @media(prefers-reduced-motion:reduce){.mvg-album,.mvg-photoGrid img{transition:none}}
 `;
 
-export function GalleryAlbumCard({ album, onClick }: { album: GalleryAlbum; onClick?: () => void }) {
+export function GalleryAlbumCard({ album, onClick }: { album: GalleryAlbum; onClick?: (event: MouseEvent<HTMLAnchorElement>) => void }) {
   const photo = album.gallery_photos[0];
   return (
     <article className="mvg-album">
