@@ -52,8 +52,17 @@ const carouselCSS = String.raw`
   filter: brightness(.48) saturate(.65);
 }
 .mv31cinema-slide[data-position="hidden"] { z-index: 0; }
-.mv31cinema-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.mv31cinema-slide[data-position="center"] img { object-position: center; }
+.mv31cinema-slide .mv31cinema-imageBackdrop {
+  position: absolute; inset: -24px; width: calc(100% + 48px); height: calc(100% + 48px);
+  object-fit: cover; object-position: center;
+  filter: blur(24px) brightness(.65) saturate(.85);
+  transform: scale(1.06); pointer-events: none;
+}
+.mv31cinema-slide .mv31cinema-imageForeground {
+  position: absolute; z-index: 1; inset: 0; display: block;
+  width: 100%; height: 100%; object-fit: contain; object-position: center;
+  pointer-events: none;
+}
 .mv31cinema-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg,#071936bb,transparent 42%); pointer-events: none; }
 .mv31cinema-caption {
   position: absolute; bottom: 23px; left: 28px; z-index: 2; text-align: left;
@@ -179,7 +188,8 @@ export default function GallerySection() {
                     }}
                   >
                     {/* Immagini caricate dal client via Supabase o demo locale. */}
-                    <img src={slide.src} alt={slide.alt} loading={position === "center" ? "eager" : "lazy"} />
+                    <img className="mv31cinema-imageBackdrop" src={slide.src} alt="" aria-hidden="true" loading="lazy" />
+                    <img className="mv31cinema-imageForeground" src={slide.src} alt={slide.alt} loading={position === "center" ? "eager" : "lazy"} />
                     {demo && position === "center" ? <span className="mv31cinema-demoTag">ANTEPRIMA DIMOSTRATIVA</span> : null}
                     {!demo ? (
                       <span className="mv31cinema-caption">
