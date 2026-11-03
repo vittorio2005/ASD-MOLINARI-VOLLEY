@@ -13,9 +13,24 @@ const milestones = [
     text: "Il gruppo di lavoro diventa l'Associazione Claudio Molinari, affiliata all'ARCI, promuovendo iniziative culturali, sociali e sportive.",
   },
   {
-    year: "OGGI",
-    title: "La pallavolo guarda avanti",
-    text: "La Molinari Volley Napoli porta avanti un progetto sportivo dedicato alla pallavolo femminile, dalla prima squadra in Serie B2 alla formazione delle giovani atlete.",
+    year: "2018/2019",
+    title: "Campionato e Coppa Campania",
+    text: "Con Elena Drozina fra le protagoniste, la Molinari conquista il campionato regionale e la Coppa Campania, ottenendo la promozione in Serie B2.",
+  },
+  {
+    year: "2024/2025",
+    title: "La stagione in Serie C",
+    text: "La squadra partecipa al campionato regionale femminile di Serie C, Girone B, chiudendo al 9º posto.",
+  },
+  {
+    year: "2025/2026",
+    title: "Una stagione da ricordare",
+    text: "La Molinari vince il Girone B di Serie C e la Coppa Campania, conquistando la promozione in Serie B2. Si aggiudica anche la Supercoppa Campania: il traguardo viene celebrato ufficialmente dal Comune di Napoli.",
+  },
+  {
+    year: "2026/2027",
+    title: "Il ritorno sul palcoscenico nazionale",
+    text: "La FacileRent Molinari Napoli affronta il campionato nazionale femminile di Serie B2, Girone I, con un roster rinnovato e Ciro Alminni alla guida tecnica.",
   },
 ];
 
@@ -59,8 +74,8 @@ const aboutStyles = String.raw`
 .mv-about-historyHeading h3 { margin: 0 0 28px; font: 900 clamp(33px, 3.2vw, 46px)/1.05 "Barlow Condensed", Impact, sans-serif; }
 .mv-about-historyHeading h3 span { color: #2456a6; }
 .mv-about-timeline { display: grid; gap: 0; padding: 0; margin: 0; list-style: none; }
-.mv-about-milestone { display: grid; grid-template-columns: 68px 1fr; gap: 20px; padding: 17px 0 18px; border-top: 1px solid #e5ecf6; }
-.mv-about-year { color: #f45198; font: 900 28px/1 "Barlow Condensed", Impact, sans-serif; letter-spacing: .02em; }
+.mv-about-milestone { display: grid; grid-template-columns: 117px minmax(0, 1fr); gap: 16px; padding: 17px 0 18px; border-top: 1px solid #e5ecf6; }
+.mv-about-year { color: #f45198; font: 900 24px/1.1 "Barlow Condensed", Impact, sans-serif; letter-spacing: .005em; white-space: nowrap; }
 .mv-about-milestone h4 { margin: 0 0 5px; color: #162a4e; font-size: 14px; line-height: 1.4; font-weight: 800; }
 .mv-about-milestone p { margin: 0; color: #64728a; font-size: 12px; line-height: 1.75; }
 .mv-about-historyNote { margin: auto 0 0; padding-top: 16px; color: #8090a7; font-size: 11px; line-height: 1.7; }
@@ -93,8 +108,8 @@ const aboutStyles = String.raw`
   .mv-about-brandHalo { width: min(240px, 72%); box-shadow: 0 0 0 20px #ffffff0b, 0 0 0 42px #ffffff08; }
   .mv-about-history { padding: 26px 20px; }
   .mv-about-historyHeading h3 { font-size: 35px; }
-  .mv-about-milestone { grid-template-columns: 58px 1fr; gap: 12px; }
-  .mv-about-year { font-size: 25px; }
+  .mv-about-milestone { grid-template-columns: 89px minmax(0, 1fr); gap: 12px; }
+  .mv-about-year { font-size: 19px; }
   .mv-about-valuesHeading { align-items: flex-start; flex-direction: column; gap: 5px; }
   .mv-about-valuesGrid { grid-template-columns: 1fr; }
   .mv-about-valueCard { min-height: 155px; }
@@ -162,7 +177,7 @@ export default function AboutSection() {
                 </li>
               ))}
             </ol>
-            <p className="mv-about-historyNote">Le date del 1954 e del 1980 riguardano le radici associative, non l'anno di fondazione dell'attuale società sportiva, ancora da confermare.</p>
+            <p className="mv-about-historyNote">Il 1954 e il 1980 raccontano le radici associative del progetto, non la data di fondazione dell'attuale società sportiva. Le tappe dal 2018/19 riguardano il percorso agonistico della Molinari Volley.</p>
           </div>
         </div>
 
