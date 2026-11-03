@@ -10,7 +10,10 @@ type Props = { params: Promise<{ slug: string }> };
 
 /** Per output: "export" / GitHub Pages, ogni slug deve essere generato a build time. */
 export function generateStaticParams() {
-  return getNewsSorted().map(({ slug }) => ({ slug }));
+  const pages = getNewsSorted().map(({ slug }) => ({ slug }));
+  // Next.js 16 con output:"export" non gestisce sempre array vuoti.
+  // Uno slug non collegato al sito viene usato solo per la build, e rende 404.
+  return pages.length > 0 ? pages : [{ slug: "__nessun-comunicato__" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
