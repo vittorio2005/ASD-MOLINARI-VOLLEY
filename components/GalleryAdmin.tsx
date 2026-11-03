@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import {
   createGalleryAlbum, galleryConfigured, galleryDate, galleryPhotoUrl,
   listGalleryAlbums, loginGallery, optimizePhoto, removeGalleryAlbum,
@@ -26,7 +26,7 @@ export default function GalleryAdmin() {
   const reload = async (current: GallerySession) => {
     setAlbums(await listGalleryAlbums(false, current.access_token));
   };
-  const authenticate = async (event: React.FormEvent) => {
+  const authenticate = async (event: FormEvent) => {
     event.preventDefault();
     setBusy("login"); setError(""); setMessage("");
     try {
@@ -38,7 +38,7 @@ export default function GalleryAdmin() {
     } catch (ex) { setError(ex instanceof Error ? ex.message : "Accesso non riuscito."); }
     finally { setBusy(""); }
   };
-  const addAlbum = async (event: React.FormEvent) => {
+  const addAlbum = async (event: FormEvent) => {
     event.preventDefault();
     if (!session) return;
     setBusy("create"); setError(""); setMessage("");
