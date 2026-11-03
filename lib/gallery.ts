@@ -119,7 +119,7 @@ export async function enrollGalleryMfa(session: GallerySession): Promise<Gallery
 export async function verifyGalleryMfa(
   session: GallerySession, factorId: string, code: string
 ): Promise<GallerySession> {
-  if (!/^\\d{6}$/.test(code)) throw new Error("Inserisci il codice di sei cifre dell'app Authenticator.");
+  if (!/^\d{6}$/.test(code.trim())) throw new Error("Inserisci il codice di sei cifre dell'app Authenticator.");
   const factor = encodeURIComponent(factorId);
   const challenge = await request<{ id: string }>(`/auth/v1/factors/${factor}/challenge`, {
     method: "POST", headers: { "Content-Type": "application/json" }, body: "{}",
@@ -127,7 +127,7 @@ export async function verifyGalleryMfa(
   const verified = await request<{ access_token: string; refresh_token?: string; expires_at?: number; expires_in?: number }>(
     `/auth/v1/factors/${factor}/verify`, {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ challenge_id: challenge.id, code }),
+      body: JSON.stringify({ challenge_id: challenge.id, code: code.trim() }),
     }, session.access_token);
   if (!verified.access_token || jwtAal(verified.access_token) !== "aal2") {
     throw new Error("Verifica a due fattori non completata.");
