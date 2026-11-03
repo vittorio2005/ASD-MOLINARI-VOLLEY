@@ -2,9 +2,9 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import {
-  createGalleryAlbum, forgetGallerySession, galleryConfigured, galleryDate, galleryPhotoUrl, getAuthorizedGallerySession,
+  createGalleryAlbum, enrollGalleryMfa, forgetGallerySession, galleryConfigured, galleryDate, galleryPhotoUrl, gallerySessionHasMfa, getAuthorizedGallerySession, getGalleryMfaFactors,
   listGalleryAlbums, loginGallery, optimizePhoto, rememberGallerySession, removeGalleryAlbum,
-  setAlbumPublished, uploadGalleryPhoto,
+  setAlbumPublished, uploadGalleryPhoto, verifyGalleryMfa, type GalleryMfaEnrollment,
   type GalleryAlbum, type GallerySession,
 } from "../lib/gallery";
 import { galleryStyles } from "./GalleryShared";
@@ -22,14 +22,23 @@ export default function GalleryAdmin() {
   const [busy, setBusy] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [pendingMfa, setPendingMfa] = useState<{ session: GallerySession; factorId: string } | null>(null);
+  const [mfaEnrollment, setMfaEnrollment] = useState<GalleryMfaEnrollment | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
+  const [mfaVerified, setMfaVerified] = useState(false);
 
   useEffect(() => {
     let active = true;
     getAuthorizedGallerySession().then(async saved => {
       if (!active || !saved) return;
       try {
+        const factors = await getGalleryMfaFactors(saved.access_token);
+        if (factors.length && !gallerySessionHasMfa(saved)) {
+          if (active) setPendingMfa({ session: saved, factorId: factors[0].id });
+          return;
+        }
         const items = await listGalleryAlbums(false, saved.access_token);
-        if (active) { setAlbums(items); setSession(saved); }
+        if (active) { setAlbums(items); setSession(saved); setMfaVerified(gallerySessionHasMfa(saved)); }
       } catch { if (active) forgetGallerySession(); }
     });
     return () => { active = false; };
@@ -43,14 +52,62 @@ export default function GalleryAdmin() {
     setBusy("login"); setError(""); setMessage("");
     try {
       const current = await loginGallery(email.trim(), password);
-      await reload(current);
-      setSession(current);
-      rememberGallerySession(current);
+      const factors = await getGalleryMfaFactors(current.access_token);
       setPassword("");
-      setMessage("Accesso effettuato. Puoi creare e gestire gli album.");
+      if (factors.length && !gallerySessionHasMfa(current)) {
+        setPendingMfa({ session: current, factorId: factors[0].id });
+        setMessage("Inserisci il codice della tua app Authenticator per completare l'accesso.");
+      } else {
+        await reload(current);
+        setSession(current);
+        setMfaVerified(gallerySessionHasMfa(current));
+        rememberGallerySession(current);
+        setMessage("Accesso effettuato. Puoi creare e gestire gli album.");
+      }
     } catch (ex) { setError(ex instanceof Error ? ex.message : "Accesso non riuscito."); }
     finally { setBusy(""); }
   };
+  const completeMfaLogin = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!pendingMfa) return;
+    setBusy("mfa"); setError("");
+    try {
+      const verified = await verifyGalleryMfa(pendingMfa.session, pendingMfa.factorId, mfaCode);
+      await reload(verified);
+      rememberGallerySession(verified);
+      setSession(verified);
+      setMfaVerified(true);
+      setPendingMfa(null); setMfaCode("");
+      setMessage("Accesso a due fattori completato.");
+    } catch (ex) { setError(ex instanceof Error ? ex.message : "Codice non valido."); }
+    finally { setBusy(""); }
+  };
+
+  const startMfaEnrollment = async () => {
+    if (!session) return;
+    setBusy("enroll"); setError("");
+    try {
+      setMfaEnrollment(await enrollGalleryMfa(session));
+      setMessage("Scansiona il QR con l'app Authenticator e conferma il codice.");
+    } catch (ex) { setError(ex instanceof Error ? ex.message : "Impossibile attivare MFA."); }
+    finally { setBusy(""); }
+  };
+
+  const completeMfaEnrollment = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!session || !mfaEnrollment) return;
+    setBusy("mfa-enroll"); setError("");
+    try {
+      const verified = await verifyGalleryMfa(session, mfaEnrollment.id, mfaCode);
+      await reload(verified);
+      rememberGallerySession(verified);
+      setSession(verified); setMfaVerified(true);
+      setMfaEnrollment(null); setMfaCode("");
+      setMessage("Autenticazione a due fattori attivata. Conserva il metodo di recupero dell'account in un luogo sicuro.");
+    } catch (ex) { setError(ex instanceof Error ? ex.message : "Codice non valido."); }
+    finally { setBusy(""); }
+  };
+
   const addAlbum = async (event: FormEvent) => {
     event.preventDefault();
     if (!session) return;
@@ -127,6 +184,21 @@ export default function GalleryAdmin() {
               <p className="mvg-small">Per abilitare l'accesso riservato, configura NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY seguendo la guida docs/CONFIGURARE_PHOTOGALLERY.md.</p>
               <p className="mvg-small">Il sito pubblico resta disponibile anche senza Supabase: mostrerà un messaggio in attesa dei primi album.</p>
             </div>
+          ) : pendingMfa ? (
+            <div className="mvg-adminCard" style={{maxWidth:540,margin:"0 auto"}}>
+              <h2>VERIFICA IN DUE PASSAGGI</h2>
+              <p className="mvg-small">Apri la tua app Authenticator e inserisci il codice temporaneo di sei cifre.</p>
+              <form onSubmit={completeMfaLogin} className="mvg-adminForm">
+                <label className="mvg-field mvg-full">Codice Authenticator
+                  <input type="text" inputMode="numeric" pattern="[0-9]{6}" maxLength={6}
+                    autoComplete="one-time-code" required value={mfaCode} onChange={e=>setMfaCode(e.target.value)} />
+                </label>
+                <button className="mvg-btn mvg-full" type="submit" disabled={Boolean(busy)}>VERIFICA E ACCEDI →</button>
+                <button className="mvg-outline mvg-full" type="button" onClick={()=>{
+                  setPendingMfa(null);setMfaCode("");forgetGallerySession();setMessage("");
+                }}>Torna al login</button>
+              </form>
+            </div>
           ) : !session ? (
             <div className="mvg-adminCard" style={{maxWidth:540,margin:"0 auto"}}>
               <h2>ACCESSO AMMINISTRATORE</h2>
@@ -148,6 +220,29 @@ export default function GalleryAdmin() {
               <div className="mvg-adminRow" style={{marginBottom:24}}>
                 <p className="mvg-note">Accesso: {session.user.email || "amministratore"} · {albums.length} album nel sistema</p>
                 <button className="mvg-outline" type="button" onClick={()=>{forgetGallerySession();setSession(null);setAlbums([]);setEmail("");setMessage("");}}>Esci dall'area riservata</button>
+              </div>
+              <div className="mvg-adminCard">
+                <h2>SICUREZZA ACCOUNT · 2FA</h2>
+                {mfaVerified ? <p className="mvg-small">Autenticazione a due fattori attiva e verificata per questa sessione.</p> : mfaEnrollment ? (
+                  <>
+                    <p className="mvg-small">Scansiona il codice QR usando Google Authenticator, Microsoft Authenticator o un'app TOTP equivalente. Non condividere il codice né la chiave segreta.</p>
+                    <img src={`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(mfaEnrollment.totp.qr_code)}`}
+                      width={190} height={190} alt="QR di configurazione autenticazione a due fattori"
+                      style={{background:"#fff",padding:12,maxWidth:"100%",height:"auto"}} />
+                    <form onSubmit={completeMfaEnrollment} className="mvg-adminForm" style={{marginTop:14}}>
+                      <label className="mvg-field mvg-full">Codice a sei cifre generato dall'app
+                        <input type="text" inputMode="numeric" pattern="[0-9]{6}" maxLength={6}
+                          autoComplete="one-time-code" required value={mfaCode} onChange={e=>setMfaCode(e.target.value)} />
+                      </label>
+                      <button type="submit" className="mvg-btn" disabled={Boolean(busy)}>CONFERMA 2FA</button>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <p className="mvg-small">Aggiungi un secondo fattore per proteggere l'account. Prima di rendere obbligatoria la 2FA nel database, completa questa configurazione.</p>
+                    <button type="button" className="mvg-outline" disabled={Boolean(busy)} onClick={startMfaEnrollment}>Configura app Authenticator</button>
+                  </>
+                )}
               </div>
               <div className="mvg-adminCard">
                 <h2>NUOVO ALBUM</h2>
