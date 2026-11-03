@@ -181,9 +181,11 @@ export default function GallerySection() {
                     {/* Immagini caricate dal client via Supabase o demo locale. */}
                     <img src={slide.src} alt={slide.alt} loading={position === "center" ? "eager" : "lazy"} />
                     {demo && position === "center" ? <span className="mv31cinema-demoTag">ANTEPRIMA DIMOSTRATIVA</span> : null}
-                    <span className="mv31cinema-caption">
-                      <strong>{slide.label}</strong><small>{slide.subtitle}</small>
-                    </span>
+                    {!demo ? (
+                      <span className="mv31cinema-caption">
+                        <strong>{slide.label}</strong><small>{slide.subtitle}</small>
+                      </span>
+                    ) : null}
                   </button>
                 );
               })}
