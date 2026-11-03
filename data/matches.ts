@@ -378,5 +378,5 @@ export const matches: VolleyMatch[] = [
 
 /** In futuro possiamo sostituire questo array con i dati di un CMS. */
 export const standingsLinks: Partial<Record<CategoryId, string>> = {
-  "serie-b2": "https://volleynetworkitalia.it/squadra.php?team=2921",
+  "serie-b2": "https://www.federvolley.it/serie-b2-femminile-classifica",
 };
