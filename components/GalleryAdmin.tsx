@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
-  createGalleryAlbum, galleryConfigured, galleryDate, galleryPhotoUrl,
-  listGalleryAlbums, loginGallery, optimizePhoto, removeGalleryAlbum,
+  createGalleryAlbum, forgetGallerySession, galleryConfigured, galleryDate, galleryPhotoUrl, getAuthorizedGallerySession,
+  listGalleryAlbums, loginGallery, optimizePhoto, rememberGallerySession, removeGalleryAlbum,
   setAlbumPublished, uploadGalleryPhoto,
   type GalleryAlbum, type GallerySession,
 } from "../lib/gallery";
@@ -23,6 +23,18 @@ export default function GalleryAdmin() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    let active = true;
+    getAuthorizedGallerySession().then(async saved => {
+      if (!active || !saved) return;
+      try {
+        const items = await listGalleryAlbums(false, saved.access_token);
+        if (active) { setAlbums(items); setSession(saved); }
+      } catch { if (active) forgetGallerySession(); }
+    });
+    return () => { active = false; };
+  }, []);
+
   const reload = async (current: GallerySession) => {
     setAlbums(await listGalleryAlbums(false, current.access_token));
   };
@@ -33,6 +45,7 @@ export default function GalleryAdmin() {
       const current = await loginGallery(email.trim(), password);
       await reload(current);
       setSession(current);
+      rememberGallerySession(current);
       setPassword("");
       setMessage("Accesso effettuato. Puoi creare e gestire gli album.");
     } catch (ex) { setError(ex instanceof Error ? ex.message : "Accesso non riuscito."); }
@@ -134,7 +147,7 @@ export default function GalleryAdmin() {
             <>
               <div className="mvg-adminRow" style={{marginBottom:24}}>
                 <p className="mvg-note">Accesso: {session.user.email || "amministratore"} · {albums.length} album nel sistema</p>
-                <button className="mvg-outline" type="button" onClick={()=>{setSession(null);setAlbums([]);setEmail("");setMessage("");}}>Esci dall'area riservata</button>
+                <button className="mvg-outline" type="button" onClick={()=>{forgetGallerySession();setSession(null);setAlbums([]);setEmail("");setMessage("");}}>Esci dall'area riservata</button>
               </div>
               <div className="mvg-adminCard">
                 <h2>NUOVO ALBUM</h2>
