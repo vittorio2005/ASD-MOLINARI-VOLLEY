@@ -55,7 +55,7 @@ const carouselCSS = String.raw`
 .mv31cinema-slide .mv31cinema-imageBackdrop {
   position: absolute; inset: -24px; width: calc(100% + 48px); height: calc(100% + 48px);
   object-fit: cover; object-position: center;
-  filter: blur(24px) brightness(.65) saturate(.85);
+  filter: blur(30px) brightness(1.03) saturate(1.05);
   transform: scale(1.06); pointer-events: none;
 }
 .mv31cinema-slide .mv31cinema-imageForeground {
