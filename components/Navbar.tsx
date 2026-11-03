@@ -9,6 +9,7 @@ const links = [
   { label: "Staff", href: "#staff", id: "staff" },
   { label: "Calendario", href: "/ASD-MOLINARI-VOLLEY/calendario/", id: "calendario" },
   { label: "News", href: "/ASD-MOLINARI-VOLLEY/news/", id: "news" },
+  { label: "Photogallery", href: "/ASD-MOLINARI-VOLLEY/photogallery/", id: "photogallery" },
   { label: "Palmarès", href: "#palmares", id: "palmares" },
   { label: "Sponsor", href: "#sponsor", id: "sponsor" },
 ];
@@ -71,7 +72,7 @@ const navbarStyles = `
 .mv18-toggle, .mv18-overlay, .mv18-panel { display: none !important; }
 .mv18-toggle { user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
 .mv18-text-close { display: none !important; }
-@media (max-width: 1180px) {
+@media (max-width: 1320px) {
   .mv18-header { height: 78px; }
   .mv18-header.mv18-scrolled { height: 72px; }
   .mv18-inner { width: min(1180px,calc(100% - 36px)); gap: 12px; }
@@ -159,7 +160,7 @@ const navbarStyles = `
 }
 `;
 
-export default function Navbar({ fromSubpage = false }: { fromSubpage?: boolean }) {
+export default function Navbar({ fromSubpage = false, activePage = "news" }: { fromSubpage?: boolean; activePage?: "news" | "photogallery" }) {
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("inizio");
@@ -198,7 +199,7 @@ export default function Navbar({ fromSubpage = false }: { fromSubpage?: boolean 
 
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth > 1180) closeMenu();
+      if (window.innerWidth > 1320) closeMenu();
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -224,7 +225,7 @@ export default function Navbar({ fromSubpage = false }: { fromSubpage?: boolean 
 
           <nav className="mv18-desktop" aria-label="Navigazione principale">
             {links.map((item) => (
-              <a key={item.id} href={menuHref(item.href)} className={(fromSubpage ? item.id === "news" : active === item.id) ? "mv18-active" : ""} aria-current={fromSubpage && item.id === "news" ? "page" : (!fromSubpage && active === item.id ? "location" : undefined)}>
+              <a key={item.id} href={menuHref(item.href)} className={(fromSubpage ? item.id === activePage : active === item.id) ? "mv18-active" : ""} aria-current={fromSubpage && item.id === activePage ? "page" : (!fromSubpage && active === item.id ? "location" : undefined)}>
                 {item.label}
               </a>
             ))}
@@ -249,7 +250,7 @@ export default function Navbar({ fromSubpage = false }: { fromSubpage?: boolean 
         </div>
         <nav className="mv18-mobile-nav" aria-label="Navigazione smartphone">
           {links.map((item, index) => (
-            <a key={item.id} href={menuHref(item.href)} onClick={closeMenu} className={(fromSubpage ? item.id === "news" : active === item.id) ? "mv18-active" : ""}>
+            <a key={item.id} href={menuHref(item.href)} onClick={closeMenu} className={(fromSubpage ? item.id === activePage : active === item.id) ? "mv18-active" : ""}>
               <span className="mv18-number">{String(index + 1).padStart(2, "0")}</span>
               <span>{item.label}</span>
               <span className="mv18-arrow" aria-hidden="true">↗</span>
