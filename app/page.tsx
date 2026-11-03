@@ -4,6 +4,7 @@ import AboutSection from "../components/AboutSection";
 import TeamsSection from "../components/TeamsSection";
 import FirstTeamSpotlight from "../components/FirstTeamSpotlight";
 import NewsSection from "../components/NewsSection";
+import GallerySection from "../components/GallerySection";
 import SponsorsSection from "../components/SponsorsSection";
 
 const staff = [
@@ -91,6 +92,8 @@ export default function Home() {
         <FirstTeamSpotlight />
 
         <NewsSection />
+
+        <GallerySection />
 
         <TeamsSection />
 
