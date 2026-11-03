@@ -85,6 +85,61 @@ export async function loginGallery(email: string, password: string): Promise<Gal
   return session;
 }
 
+/**
+ * MFA TOTP Supabase Auth. Il JWT AAL è usato qui soltanto per l'interfaccia:
+ * l'autorizzazione definitiva deve essere applicata dalle policy RLS.
+ */
+export type GalleryMfaFactor = { id: string; factor_type: string; status: string; friendly_name?: string };
+export type GalleryMfaEnrollment = { id: string; totp: { qr_code: string; secret: string; uri: string } };
+
+function jwtAal(token: string): string {
+  try {
+    const encoded = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    const json = JSON.parse(atob(encoded)) as { aal?: string };
+    return json.aal ?? "aal1";
+  } catch { return "aal1"; }
+}
+
+export function gallerySessionHasMfa(session: GallerySession): boolean {
+  return jwtAal(session.access_token) === "aal2";
+}
+
+export async function getGalleryMfaFactors(token: string): Promise<GalleryMfaFactor[]> {
+  const user = await request<{ factors?: GalleryMfaFactor[] }>("/auth/v1/user", {}, token);
+  return (user.factors ?? []).filter(f => f.factor_type === "totp" && f.status === "verified");
+}
+
+export async function enrollGalleryMfa(session: GallerySession): Promise<GalleryMfaEnrollment> {
+  return request<GalleryMfaEnrollment>("/auth/v1/factors", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ factor_type: "totp", friendly_name: "Molinari Volley Admin" }),
+  }, session.access_token);
+}
+
+export async function verifyGalleryMfa(
+  session: GallerySession, factorId: string, code: string
+): Promise<GallerySession> {
+  if (!/^\\d{6}$/.test(code)) throw new Error("Inserisci il codice di sei cifre dell'app Authenticator.");
+  const factor = encodeURIComponent(factorId);
+  const challenge = await request<{ id: string }>(`/auth/v1/factors/${factor}/challenge`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: "{}",
+  }, session.access_token);
+  const verified = await request<{ access_token: string; refresh_token?: string; expires_at?: number; expires_in?: number }>(
+    `/auth/v1/factors/${factor}/verify`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ challenge_id: challenge.id, code }),
+    }, session.access_token);
+  if (!verified.access_token || jwtAal(verified.access_token) !== "aal2") {
+    throw new Error("Verifica a due fattori non completata.");
+  }
+  return {
+    ...session, access_token: verified.access_token,
+    refresh_token: verified.refresh_token ?? session.refresh_token,
+    expires_at: verified.expires_at ??
+      (verified.expires_in ? Math.floor(Date.now() / 1000) + verified.expires_in : session.expires_at),
+  };
+}
+
 /** Sessione limitata alla scheda corrente: non memorizziamo password o refresh token. */
 const gallerySessionKey = "molinari-gallery-admin-session";
 
