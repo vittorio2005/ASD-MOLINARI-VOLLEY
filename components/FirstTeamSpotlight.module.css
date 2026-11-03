@@ -1,0 +1,67 @@
+.section {
+  padding: clamp(72px, 8vw, 112px) 0;
+  background: #f5f8ff;
+  color: #122448;
+  overflow: hidden;
+}
+.wrap { width: min(1180px, calc(100% - 52px)); margin-inline: auto; }
+.intro { display: flex; align-items: end; justify-content: space-between; gap: 38px; margin-bottom: 34px; }
+.kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 20px; color: #2456a6; font-size: 11px; font-weight: 800; letter-spacing: .18em; }
+.kicker span { width: 9px; height: 9px; background: #f45198; border-radius: 50%; box-shadow: 0 0 0 4px rgba(244,81,152,.12); }
+.heading { max-width: 730px; margin: 0; font: 900 clamp(56px, 6vw, 88px)/.92 "Barlow Condensed", Impact, sans-serif; text-transform: uppercase; letter-spacing: -.012em; }
+.heading span { color: #2456a6; }
+.lead { margin: 0 0 4px; max-width: 294px; color: #5a6c89; font-size: 14px; line-height: 1.9; }
+.feature { display: grid; grid-template-columns: 1fr 1.02fr; min-height: 435px; border-radius: 16px; overflow: hidden; background: #0a2866; box-shadow: 0 24px 55px rgba(12, 41, 94, .16); }
+.copy { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; min-width: 0; padding: clamp(28px, 4.5vw, 59px); background: radial-gradient(circle at 5% 100%, rgba(255,120,183,.16), transparent 60%), linear-gradient(140deg, #163d80, #092451 86%); color: #fff; }
+.overline { margin: 0 0 23px; display: flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 800; letter-spacing: .15em; color: #fdd3e7; }
+.pulse { display: inline-block; flex-shrink: 0; width: 9px; height: 9px; background: #ff72b8; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,114,184,.2); }
+.season { margin: 0 0 10px; font-size: 10px; font-weight: 700; letter-spacing: .14em; color: #c7dafd; }
+.teamTitle { margin: 0; font: 900 clamp(82px, 9vw, 138px)/.85 "Barlow Condensed", Impact, sans-serif; letter-spacing: -.028em; white-space: nowrap; }
+.teamTitle span { color: #ff78b7; }
+.description { margin: 23px 0 0; max-width: 445px; font-size: 14px; line-height: 1.9; color: #deebff; }
+.actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 27px; }
+.primary, .secondary { display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 48px; border-radius: 7px; padding: 13px 16px; font-size: 12px; font-weight: 800; transition: transform .2s ease, background .2s ease; }
+.primary { background: #ff78b7; color: #0c285d; }
+.secondary { border: 1px solid rgba(255,255,255,.52); color: #fff; }
+.primary:hover, .secondary:hover { transform: translateY(-2px); }
+.primary:hover { background: #ffafd5; }
+.secondary:hover { background: rgba(255,255,255,.12); }
+.photo { position: relative; min-height: 435px; background: #214980; overflow: hidden; }
+.photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(3,19,48,.6), transparent 36%); }
+.photoImage { object-fit: cover; object-position: 49% 50%; }
+.photoLabel { position: absolute; bottom: 20px; right: 20px; z-index: 1; padding: 11px 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 5px; background: rgba(9,30,71,.76); color: #fff; font-size: 10px; letter-spacing: .16em; font-weight: 800; }
+.rosterPreview { display: flex; justify-content: space-between; align-items: center; gap: 38px; margin-top: 16px; border: 1px solid #dfe7f4; border-radius: 13px; background: #fff; padding: clamp(23px, 3vw, 35px); }
+.rosterText { max-width: 720px; }
+.rosterKicker { margin: 0 0 10px; color: #2456a6; font-size: 10px; letter-spacing: .17em; font-weight: 800; }
+.rosterText h3 { margin: 0; font: 900 clamp(34px, 3.6vw, 48px)/.94 "Barlow Condensed", Impact, sans-serif; text-transform: uppercase; color: #142d60; }
+.rosterText h3 span { color: #ff78b7; }
+.rosterText p:last-child { margin: 12px 0 0; color: #65738d; font-size: 13px; line-height: 1.8; }
+.rosterAction { flex: 0 0 auto; display: flex; align-items: flex-end; flex-direction: column; gap: 18px; }
+.status { display: inline-flex; align-items: center; gap: 9px; padding: 9px 13px; background: #f2f6fd; border-radius: 99px; color: #31527f; font-size: 11px; font-weight: 800; }
+.status span { width: 7px; height: 7px; border-radius: 50%; background: #ff78b7; }
+.rosterAction a { display: inline-flex; align-items: center; gap: 20px; color: #2456a6; font-size: 12px; font-weight: 800; padding-bottom: 6px; border-bottom: 2px solid #ff78b7; }
+.rosterAction a:hover { color: #0a2866; }
+@media (max-width: 900px) {
+  .intro { align-items: flex-start; flex-direction: column; gap: 18px; }
+  .lead { max-width: 610px; }
+  .feature { grid-template-columns: 1fr 1fr; }
+  .copy { padding: 30px; }
+  .teamTitle { font-size: clamp(68px, 10vw, 115px); }
+  .rosterPreview { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .rosterAction { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+}
+@media (max-width: 700px) {
+  .wrap { width: min(100% - 36px, 1180px); }
+  .section { padding: 68px 0; }
+  .heading { font-size: clamp(52px, 13vw, 78px); }
+  .feature { grid-template-columns: 1fr; }
+  .copy { padding: 34px 27px 37px; }
+  .teamTitle { font-size: clamp(87px, 21vw, 130px); }
+  .photo { min-height: 300px; }
+  .photoLabel { right: 12px; bottom: 12px; }
+  .rosterPreview { padding: 24px 22px; }
+  .rosterAction { align-items: flex-start; flex-direction: column; gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .primary, .secondary { transition: none; }
+}
