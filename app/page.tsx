@@ -46,7 +46,7 @@ export default function Home() {
               </p>
               <div className="hero-buttons">
                 <a className="button button-pink" href="#squadre">
-                  Scopri le squadre <Arrow diagonal />
+                  Scopri tutte le squadre <Arrow diagonal />
                 </a>
                 <a className="button button-glass" href="#societa">
                   La nostra storia <Arrow />
