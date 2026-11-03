@@ -3,6 +3,9 @@
 
 import { teams } from "../data/teams";
 
+// La Serie B2 è presentata separatamente nella Home.
+const otherTeams = teams.filter((team) => team.slug !== "serie-b2");
+
 const teamStyles = String.raw`
 .mv21-teams {
   position: relative;
@@ -110,10 +113,10 @@ export default function TeamsSection() {
               <p className="mv21-kicker"><span className="mv21-kicker-dot" aria-hidden="true" /> 02 / IL NOSTRO MONDO</p>
               <h2 id="mv21-title">OGNI SQUADRA.<br /><span>UNA SOLA PASSIONE.</span></h2>
             </div>
-            <p className="mv21-heading-desc">Dalla prima squadra in Serie B2 alle prime esperienze con Volley S3: un percorso comune, fatto di sport, crescita e appartenenza.</p>
+            <p className="mv21-heading-desc">Dalla Prima Divisione alle prime esperienze con Volley S3: sette categorie, un percorso comune fatto di sport, crescita e appartenenza.</p>
           </div>
           <div className="mv21-grid">
-            {teams.map((team) => (
+            {otherTeams.map((team, index) => (
               <article
                 className={[
                   "mv21-card",
@@ -123,7 +126,7 @@ export default function TeamsSection() {
                 key={team.number}
               >
                 <div className="mv21-cardHead">
-                  <span className="mv21-number">{team.number} / 08</span>
+                  <span className="mv21-number">{String(index + 1).padStart(2, "0")} / {String(otherTeams.length).padStart(2, "0")}</span>
                   <span className="mv21-arrow" aria-hidden="true">↗</span>
                 </div>
                 <div className="mv21-cardBody">
