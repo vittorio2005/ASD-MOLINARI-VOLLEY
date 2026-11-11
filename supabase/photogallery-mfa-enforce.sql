@@ -8,7 +8,7 @@
 begin;
 
 -- Evita di attivare l'obbligo MFA senza un account amministratore recuperabile.
-do $
+do $$
 declare missing_admins integer;
 begin
   if not exists (select 1 from public.gallery_admins) then
@@ -34,7 +34,7 @@ begin
     raise exception 'RLS non attiva su tutte e tre le tabelle della photogallery.';
   end if;
 end
-$;
+$$;
 
 
 create or replace function public.is_gallery_admin_mfa()
