@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { GalleryAlbumCard, GalleryEmpty, galleryStyles } from "./GalleryShared";
 import {
-  albumLink, galleryConfigured, galleryDate, galleryPhotoUrl,
+  albumLink, galleryConfigured, galleryDate, galleryPhotoUrl, getAuthorizedGallerySession,
   listGalleryAlbums, type GalleryAlbum,
 } from "../lib/gallery";
 
@@ -12,6 +12,7 @@ export default function GalleryArchive() {
   const [error, setError] = useState("");
   const [category, setCategory] = useState("Tutte le squadre");
   const [selectedId, setSelectedId] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!galleryConfigured) return;
@@ -26,6 +27,14 @@ export default function GalleryArchive() {
       if (!cancelled) setLoading(false);
     });
     return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    getAuthorizedGallerySession().then(session => {
+      if (active) setIsAdmin(Boolean(session));
+    });
+    return () => { active = false; };
   }, []);
 
   const categories = [...new Set(albums.map((album) => album.category))];
@@ -50,6 +59,15 @@ export default function GalleryArchive() {
           <p className="mvg-kicker">MOLINARI VOLLEY / GLI SCATTI</p>
           <h1 className="mvg-title">LA NOSTRA<br/><span>PHOTOGALLERY.</span></h1>
           <p>Le fotografie ufficiali delle partite e delle squadre, raccolte in album per data e categoria.</p>
+          <a
+            className="mvg-adminEntry"
+            href="/ASD-MOLINARI-VOLLEY/admin/photogallery/"
+            aria-label={isAdmin ? "Gestisci album e fotografie" : "Accedi al pannello amministratore della Photogallery"}
+          >
+            <span aria-hidden="true">🔒</span>
+            <span>{isAdmin ? "GESTISCI ALBUM" : "ACCEDI"}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </section>
       <section className="mvg-archive" aria-label="Album fotografici">
