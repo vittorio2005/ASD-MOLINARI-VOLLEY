@@ -59,11 +59,20 @@ export default function GalleryArchive() {
           <p className="mvg-kicker">MOLINARI VOLLEY / GLI SCATTI</p>
           <h1 className="mvg-title">LA NOSTRA<br/><span>PHOTOGALLERY.</span></h1>
           <p>Le fotografie ufficiali delle partite e delle squadre, raccolte in album per data e categoria.</p>
-          {isAdmin ? (
-          <a href="/ASD-MOLINARI-VOLLEY/admin/photogallery/" aria-label="Accedi al pannello amministratore della Photogallery" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 20, padding: "10px 16px", border: "1px solid rgba(255,255,255,.45)", borderRadius: 8, color: "inherit", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
-            <span aria-hidden="true">🔒</span> Accesso admin
+          <a
+            href="/ASD-MOLINARI-VOLLEY/admin/photogallery/"
+            aria-label={isAdmin ? "Gestisci gli album della Photogallery" : "Accedi all'area amministrativa della Photogallery"}
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 9,
+              marginTop: 20, padding: "12px 19px", borderRadius: 9,
+              background: "#ffffff", color: "#142b59",
+              fontSize: 13, fontWeight: 800, textDecoration: "none",
+              boxShadow: "0 5px 18px rgba(0, 0, 0, .13)",
+            }}
+          >
+            <span aria-hidden="true">🔒</span> {isAdmin ? "GESTISCI ALBUM" : "ACCEDI"}
+            <span aria-hidden="true">↗</span>
           </a>
-          ) : null}
         </div>
       </section>
       <section className="mvg-archive" aria-label="Album fotografici">
