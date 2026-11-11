@@ -40,6 +40,11 @@ export const galleryStyles = String.raw`
 .mvg-control{border:1px solid #cadaed;background:#fff;border-radius:7px;color:#2456a6;min-width:43px;height:43px;cursor:pointer;font-size:21px}
 .mvg-control:hover{background:#e9f0fc}
 .mvg-hero{padding:clamp(70px,7vw,105px) 0;background:radial-gradient(circle at 90% 20%,#326fbc,#0b285d 78%);color:#fff}
+.mvg-galleryHeroTop{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:15px;margin-bottom:20px}
+.mvg-galleryHeroTop .mvg-kicker{margin:0;padding-top:13px}
+.mvg-galleryAccess{display:inline-flex;align-items:center;gap:9px;margin-left:auto;padding:12px 19px;border-radius:9px;background:#fff;color:#142b59;font-size:13px;font-weight:800;white-space:nowrap;text-decoration:none;box-shadow:0 5px 18px rgba(0,0,0,.13);transition:background .2s,transform .2s}
+.mvg-galleryAccess:hover{background:#f1f5fd;transform:translateY(-1px)}
+.mvg-galleryAccess:focus-visible{outline:3px solid #ff78b7;outline-offset:3px}
 .mvg-hero .mvg-kicker{color:#ffc6e1}
 .mvg-hero .mvg-title span{color:#ff78b7}
 .mvg-hero p:not(.mvg-kicker){color:#d8e6ff;font-size:14px;line-height:1.85;max-width:650px}
