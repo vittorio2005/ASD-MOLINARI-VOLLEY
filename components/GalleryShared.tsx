@@ -42,6 +42,11 @@ export const galleryStyles = String.raw`
 .mvg-hero{padding:clamp(70px,7vw,105px) 0;background:radial-gradient(circle at 90% 20%,#326fbc,#0b285d 78%);color:#fff}
 .mvg-hero .mvg-kicker{color:#ffc6e1}
 .mvg-hero .mvg-title span{color:#ff78b7}
+
+.mvg-adminEntry{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;padding:13px 20px;min-height:47px;border-radius:9px;background:#fff;color:#102b58!important;font-size:13px;font-weight:900;text-decoration:none;box-shadow:0 6px 20px #061b3940;transition:transform .2s,background .2s}
+.mvg-adminEntry:hover{background:#ffe8f4;transform:translateY(-2px)}
+.mvg-adminEntry:focus-visible{outline:3px solid #ff78b7;outline-offset:4px}
+
 .mvg-hero p:not(.mvg-kicker){color:#d8e6ff;font-size:14px;line-height:1.85;max-width:650px}
 .mvg-archive{padding:65px 0 105px;min-height:390px}
 .mvg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
@@ -72,7 +77,7 @@ export const galleryStyles = String.raw`
 .mvg-small{font-size:12px;line-height:1.7;color:#64728a;margin:7px 0}
 .mvg-footer{background:#fff;border-top:1px solid #e1e8f5;padding:25px 0;font-size:12px;color:#697b93}
 @media(max-width:950px){.mvg-head{align-items:start;flex-direction:column;gap:17px}.mvg-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:700px){.mvg-wrap{width:calc(100% - 36px)}.mvg-section{padding:65px 0}.mvg-title{font-size:clamp(54px,12vw,80px)}.mvg-grid{grid-template-columns:1fr}.mvg-empty{grid-template-columns:1fr}.mvg-emptyMark{display:none}.mvg-photoGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.mvg-adminForm{grid-template-columns:1fr}.mvg-adminMain{padding-top:35px}.mvg-scroller>.mvg-album{flex-basis:min(310px,85vw)}}
+@media(max-width:700px){.mvg-adminEntry{width:100%;max-width:265px;min-height:50px}.mvg-wrap{width:calc(100% - 36px)}.mvg-section{padding:65px 0}.mvg-title{font-size:clamp(54px,12vw,80px)}.mvg-grid{grid-template-columns:1fr}.mvg-empty{grid-template-columns:1fr}.mvg-emptyMark{display:none}.mvg-photoGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.mvg-adminForm{grid-template-columns:1fr}.mvg-adminMain{padding-top:35px}.mvg-scroller>.mvg-album{flex-basis:min(310px,85vw)}}
 @media(prefers-reduced-motion:reduce){.mvg-album,.mvg-photoGrid img{transition:none}}
 `;
 
