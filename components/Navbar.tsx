@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { getAuthorizedGallerySession } from "../lib/gallery";
 
 const links = [
   { label: "La società", href: "#societa", id: "societa" },
@@ -69,6 +70,15 @@ const navbarStyles = `
 .mv18-desktop a:hover::after, .mv18-desktop a.mv18-active::after { transform: scaleX(1); }
 .mv18-join { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; gap: 16px; min-height: 50px; padding: 0 20px; background: #2456a6; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 800; white-space: nowrap; }
 .mv18-join:hover { background: #174285; }
+.mv18-shell.mv18-gallery-page .mv18-inner { gap: 12px; }
+.mv18-shell.mv18-gallery-page .mv18-logo { width: clamp(195px,15vw,222px); }
+.mv18-shell.mv18-gallery-page .mv18-desktop { gap: clamp(3px,.45vw,8px); }
+.mv18-shell.mv18-gallery-page .mv18-desktop a { padding: 0 5px; }
+.mv18-shell.mv18-gallery-page .mv18-join { padding: 0 13px; gap: 10px; }
+.mv18-gallery-access { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 12px; border: 1px solid #ef8dbd; background: #fff7fb; color: #112f67; border-radius: 8px; font-size: 12px; font-weight: 800; white-space: nowrap; text-decoration: none; }
+.mv18-gallery-access:hover { background: #ffe7f2; border-color: #ee6fa9; }
+.mv18-gallery-access:focus-visible, .mv18-mobile-admin:focus-visible { outline: 3px solid #f45198; outline-offset: 3px; }
+
 .mv18-toggle, .mv18-overlay, .mv18-panel { display: none !important; }
 .mv18-toggle { user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
 .mv18-text-close { display: none !important; }
@@ -78,6 +88,8 @@ const navbarStyles = `
   .mv18-inner { width: min(1180px,calc(100% - 36px)); gap: 12px; }
   .mv18-logo, .mv18-header.mv18-scrolled .mv18-logo { width: clamp(190px,35vw,230px); }
   .mv18-desktop, .mv18-join { display: none !important; }
+  .mv18-gallery-access { display: none !important; }
+  .mv18-shell.mv18-gallery-page .mv18-logo { width: clamp(190px,35vw,230px); }
   .mv18-toggle {
     display: inline-flex !important;
     flex: 0 0 auto;
@@ -150,6 +162,8 @@ const navbarStyles = `
   .mv18-number { color: #93a2bb; font-size: 13px; font-weight: 700; }
   .mv18-arrow { justify-self: end; font-size: 23px; font-weight: 500; }
   .mv18-mobile-join { display: flex !important; align-items: center; justify-content: space-between; gap: 12px; min-height: 68px; padding: 17px 20px; margin-top: 18px; border-radius: 8px; background: #ff78b7; color: #102b58; font-size: 18px; font-weight: 800; }
+  .mv18-mobile-nav > a.mv18-mobile-admin { display: flex !important; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; min-height: 60px; margin-top: 12px; background: #fff0f7; border: 1px solid #f8c6dd; border-radius: 8px; color: #102b58; font-size: 15px; font-weight: 900; }
+
 }
 @media (max-width: 565px) {
   .mv18-logo, .mv18-header.mv18-scrolled .mv18-logo { width: min(184px,45vw); }
@@ -164,6 +178,20 @@ export default function Navbar({ fromSubpage = false, activePage = "news" }: { f
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("inizio");
+  const showGalleryAccess = fromSubpage && activePage === "photogallery";
+  const [isGalleryAdmin, setIsGalleryAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!showGalleryAccess) return;
+    let active = true;
+    getAuthorizedGallerySession().then(session => {
+      if (active) setIsGalleryAdmin(Boolean(session));
+    }).catch(() => {
+      if (active) setIsGalleryAdmin(false);
+    });
+    return () => { active = false; };
+  }, [showGalleryAccess]);
+
 
   const menuHref = (href: string) => fromSubpage && href.startsWith("#")
     ? `/ASD-MOLINARI-VOLLEY/${href}`
@@ -206,7 +234,7 @@ export default function Navbar({ fromSubpage = false, activePage = "news" }: { f
   }, []);
 
   return (
-    <div className={`mv18-shell ${scrolled ? "mv18-scrolled" : ""}`}>
+    <div className={`mv18-shell ${scrolled ? "mv18-scrolled" : ""} ${showGalleryAccess ? "mv18-gallery-page" : ""}`}>
       <style dangerouslySetInnerHTML={{ __html: navbarStyles }} />
       <input
         id="mv18-menu-checkbox"
@@ -232,6 +260,15 @@ export default function Navbar({ fromSubpage = false, activePage = "news" }: { f
           </nav>
 
           <a className="mv18-join" href={menuHref("#contatti")}><span>Unisciti a Noi</span><Arrow /></a>
+          {showGalleryAccess ? (
+            <a className="mv18-gallery-access" href="/ASD-MOLINARI-VOLLEY/admin/photogallery/"
+              aria-label={isGalleryAdmin ? "Gestisci gli album della Photogallery" : "Accedi al pannello della Photogallery"}>
+              <span aria-hidden="true">🔒</span>
+              <span>{isGalleryAdmin ? "Gestisci album" : "Accedi"}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ) : null}
+
 
           <label htmlFor="mv18-menu-checkbox" className="mv18-toggle">
             <span className="mv18-bars" aria-hidden="true"><i /><i /><i /></span>
@@ -256,6 +293,14 @@ export default function Navbar({ fromSubpage = false, activePage = "news" }: { f
               <span className="mv18-arrow" aria-hidden="true">↗</span>
             </a>
           ))}
+          {showGalleryAccess ? (
+            <a href="/ASD-MOLINARI-VOLLEY/admin/photogallery/" onClick={closeMenu} className="mv18-mobile-admin"
+              aria-label={isGalleryAdmin ? "Gestisci gli album della Photogallery" : "Accedi al pannello della Photogallery"}>
+              <span aria-hidden="true">🔒</span>
+              <span>{isGalleryAdmin ? "GESTISCI ALBUM" : "ACCEDI"}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ) : null}
           <a href={menuHref("#contatti")} onClick={closeMenu} className="mv18-mobile-join"><span>Unisciti a Noi</span><Arrow /></a>
         </nav>
       </div>
