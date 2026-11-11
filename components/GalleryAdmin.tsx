@@ -248,7 +248,7 @@ export default function GalleryAdmin() {
                 <h2>NUOVO ALBUM</h2>
                 <form className="mvg-adminForm" onSubmit={addAlbum}>
                   <label className="mvg-field">Titolo dell'album
-                    <input required maxLength={110} value={form.title} placeholder="Molinari – Salerno"
+                    <input required maxLength={110} value={form.title} placeholder="Associazione Sportiva Dilettantistica - Molinari Volley"
                       onChange={e=>setForm({...form,title:e.target.value})} />
                   </label>
                   <label className="mvg-field">Data della partita
